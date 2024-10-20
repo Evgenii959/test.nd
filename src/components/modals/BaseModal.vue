@@ -43,10 +43,12 @@ export default {
   justify-content: center;
   align-items: center;
   position: fixed;
+  background-color: rgba(10, 31, 56, 0.7);
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 5;
   &__content {
     background-color: #1b2f46;
     padding: 20px;

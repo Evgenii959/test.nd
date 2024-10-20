@@ -112,6 +112,7 @@ export default {
     margin: 0 0 8px 24px;
   }
   &__input {
+    font-family: 'Montserrat';
     background-color: #ffffff;
     border-radius: 36px;
     padding: 23px 28px;
