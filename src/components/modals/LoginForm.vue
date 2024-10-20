@@ -1,5 +1,5 @@
 <template>
-  <form class="login" @submit.prevent="handleSubmit">
+  <form class="login" @submit.prevent="login">
     <div class="login__form-group">
       <label class="login__label" for="login__email">Email</label>
       <input
@@ -8,7 +8,7 @@
         id="email"
         v-model="email"
         required
-        placeholder="Введите ваш email"
+        placeholder="Введите значение"
       />
     </div>
     <div class="login__form-group">
@@ -19,13 +19,13 @@
         id="password"
         v-model="password"
         required
-        placeholder="Введите ваш пароль"
+        placeholder="******"
       />
     </div>
     <div class="login__block-submit">
       <p class="login__registration">
         У вас нет аккаунта?
-        <a class="login__link" href="#" @click.prevent="register"
+        <a class="login__link" href="#" @click.prevent="openRegisterModal"
           >Зарегистрируйтесь</a
         >
       </p>
@@ -33,15 +33,81 @@
     </div>
   </form>
 </template>
+
 <script>
 export default {
-  components: {},
   data() {
-    return {};
+    return {
+      email: '',
+      password: '',
+    };
   },
   methods: {
-    handleSubmit() {},
-    register() {},
+    openRegisterModal() {
+      this.$emit('open-register-modal');
+    },
+    async login() {
+      try {
+        const userData = {
+          email: this.email,
+          password: this.password,
+        };
+
+        const response = await fetch('https://dist.nd.ru/api/auth', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userData),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+
+          if (data.accessToken) {
+            localStorage.setItem('accessToken', data.accessToken);
+            localStorage.setItem('userEmail', this.email);
+            this.$emit('login-success', this.email);
+            console.log('Токен сохранен:', data.accessToken);
+
+            await this.fetchProtectedData();
+
+            this.email = '';
+            this.password = '';
+          } else {
+            console.error('Токен не был возвращен.');
+          }
+        } else {
+          console.error('Ошибка авторизации:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Ошибка при авторизации:', error);
+      }
+    },
+
+    async fetchProtectedData() {
+      try {
+        const token = localStorage.getItem('accessToken');
+        const response = await fetch('https://dist.nd.ru/api/auth', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          this.$emit('close-login-modal');
+        } else {
+          const errorData = await response.json();
+          throw new Error(
+            errorData.message || 'Ошибка доступа к защищённому ресурсу'
+          );
+        }
+      } catch (error) {
+        console.error('Ошибка при запросе:', error);
+      }
+    },
   },
 };
 </script>
@@ -71,6 +137,7 @@ export default {
     font-size: 18px;
     line-height: 28px;
     color: #9da5af;
+    border: 0;
   }
   &__block-submit {
     display: flex;
@@ -98,6 +165,7 @@ export default {
     line-height: 32px;
     color: #ffffff;
     cursor: pointer;
+    border: 0;
   }
 }
 </style>

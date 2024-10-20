@@ -2,7 +2,7 @@
   <div v-if="isOpen" class="modal" @keydown.esc="close">
     <div class="modal__content">
       <img src="../../assets/close.svg" class="modal__close" @click="close" />
-      <h2 class="modal__title">Вход в ваш аккаунт</h2>
+      <h2 class="modal__title">{{ modalTitle }}</h2>
       <slot />
     </div>
   </div>
@@ -12,6 +12,10 @@ export default {
   props: {
     isOpen: {
       type: Boolean,
+      required: true,
+    },
+    modalTitle: {
+      type: String,
       required: true,
     },
   },
@@ -60,6 +64,7 @@ export default {
     border-radius: 50%;
     width: 16px;
     height: 16px;
+    border: 0;
   }
   &__title {
     font-weight: 600;
