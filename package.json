@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "build": "webpack",
-    "dev": "webpack serve --open"
+    "dev": "webpack serve --open",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "vue": "^2.7.16",
@@ -20,6 +21,7 @@
     "@vue/cli-service": "~5.0.0",
     "babel-loader": "^9.2.1",
     "css-loader": "^7.1.2",
+    "gh-pages": "^6.2.0",
     "html-loader": "^5.1.0",
     "html-webpack-plugin": "^5.6.2",
     "node-sass": "^9.0.0",
