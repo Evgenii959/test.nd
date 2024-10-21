@@ -1,6 +1,8 @@
 <template>
-  <div v-if="isOpen" class="modal">
-    <p class="modal__text" @click="handleLogout">Выйти</p>
+  <div v-if="isOpen" class="modal" @click.self="close">
+    <div class="modal-content">
+      <p class="modal__text" @click="handleLogout">Выйти</p>
+    </div>
   </div>
 </template>
 
@@ -12,7 +14,21 @@ export default {
       required: true,
     },
   },
+  mounted() {
+    window.addEventListener('keydown', this.handleKeyDown);
+  },
+  beforeDestroy() {
+    window.removeEventListener('keydown', this.handleKeyDown);
+  },
   methods: {
+    close() {
+      this.$emit('close');
+    },
+    handleKeyDown(event) {
+      if (event.key === 'Escape') {
+        this.$emit('close');
+      }
+    },
     async handleLogout() {
       try {
         const token = localStorage.getItem('accessToken');
@@ -42,11 +58,13 @@ export default {
 <style scoped lang="scss">
 .modal {
   position: absolute;
+  background-color: #1b2f46;
+  padding: 40px;
+  box-shadow: 0 15px 46px -10px rgba(0, 0, 0, 0.6);
   top: 77px;
   right: 0px;
-  background-color: #1b2f46;
   border-radius: 12px;
-  padding: 40px;
+  z-index: 3;
   &::before {
     content: '';
     position: absolute;

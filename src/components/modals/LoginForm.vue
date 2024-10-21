@@ -1,27 +1,25 @@
 <template>
   <form class="login" @submit.prevent="login">
-    <div class="login__form-group">
-      <label class="login__label" for="login__email">Email</label>
-      <input
-        class="login__input"
-        type="email"
-        id="email"
-        v-model="email"
-        required
-        placeholder="Введите значение"
-      />
-    </div>
-    <div class="login__form-group">
-      <label class="login__label" for="password">Пароль</label>
-      <input
-        class="login__input"
-        type="password"
-        id="password"
-        v-model="password"
-        required
-        placeholder="******"
-      />
-    </div>
+    <label class="login__label" for="login__email">Email</label>
+    <input
+      class="login__input"
+      type="email"
+      id="email"
+      v-model="email"
+      required
+      placeholder="Введите значение"
+    />
+
+    <label class="login__label" for="password">Пароль</label>
+    <input
+      class="login__input"
+      type="password"
+      id="password"
+      v-model="password"
+      required
+      placeholder="******"
+    />
+
     <div class="login__block-submit">
       <p class="login__registration">
         У вас нет аккаунта?
@@ -115,8 +113,9 @@ export default {
 .login {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
   &__form-group {
     display: flex;
     flex-direction: column;
@@ -129,20 +128,40 @@ export default {
     margin: 0 0 8px 24px;
   }
   &__input {
-          font-family: 'Montserrat';
+    font-family: 'Montserrat';
     background-color: #ffffff;
     border-radius: 36px;
     padding: 23px 28px;
-    width: 620px;
+    width: 100%;
+    box-sizing: border-box;
     font-weight: 400;
     font-size: 18px;
     line-height: 28px;
     color: #9da5af;
     border: 0;
+    margin-bottom: 24px;
+  }
+  &__input:hover {
+    border: 2px solid #b1c909;
+    padding: 21.5px 26.5px;
+  }
+  &__input:active {
+    border: 2px solid #b1c909;
+    padding: 21.5px 26.5px;
+    outline: none;
+  }
+  &__input:focus {
+    border: 2px solid #b1c909;
+    padding: 21.5px 26.5px;
+    outline: none;
+  }
+  &__input:placeholder {
+    color: #9da5af;
   }
   &__block-submit {
     display: flex;
     justify-content: space-between;
+    margin-top: 12px;
     width: 100%;
   }
   &__registration {
@@ -158,7 +177,9 @@ export default {
     color: #b1c909;
   }
   &__button {
-    padding: 12px 24px;
+    font-family: 'Montserrat';
+    padding: 0 24px;
+    height: 56px;
     background-color: #b1c909;
     border-radius: 32px;
     font-weight: 500;
@@ -167,6 +188,42 @@ export default {
     color: #ffffff;
     cursor: pointer;
     border: 0;
+  }
+}
+@media (max-width: 1366px) {
+  .login {
+    &__registration {
+      max-width: 200px;
+      margin: 0;
+    }
+  }
+}
+@media (max-width: 768px) {
+  .login {
+    &__input {
+      margin-bottom: 16px;
+    }
+    &__block-submit {
+      flex-direction: column;
+      align-items: center;
+    }
+    &__button {
+      order: 1;
+      width: 100%;
+    }
+    &__registration {
+      order: 2;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 24px;
+      max-width: 400px;
+      margin-top: 10px;
+    }
+    &__link {
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 24px;
+    }
   }
 }
 </style>

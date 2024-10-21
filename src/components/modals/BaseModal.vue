@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isOpen" class="modal" @keydown.esc="close">
+  <div v-if="isOpen" class="modal" @click.self="close" @keydown.esc="close">
     <div class="modal__content">
       <img src="../../assets/close.svg" class="modal__close" @click="close" />
       <h2 class="modal__title">{{ modalTitle }}</h2>
@@ -51,10 +51,11 @@ export default {
   z-index: 5;
   &__content {
     background-color: #1b2f46;
-    padding: 20px;
     border-radius: 40px;
     position: relative;
     padding: 80px;
+    max-width: 620px;
+    width: 100%;
   }
   &__close {
     position: absolute;
@@ -62,10 +63,10 @@ export default {
     right: 20px;
     cursor: pointer;
     background-color: #b1c909;
-    padding: 20px;
+    padding: 16px;
     border-radius: 50%;
-    width: 16px;
-    height: 16px;
+    width: 24px;
+    height: 24px;
     border: 0;
   }
   &__title {
@@ -76,5 +77,57 @@ export default {
     margin: 0 0 40px;
     width: 100%;
   }
+}
+@media (max-width: 1366px) {
+  .modal {
+    &__content {
+      padding: 56px;
+      max-width: 494px;
+    }
+    &__title {
+      max-width: 482px;
+      font-weight: 600;
+      font-size: 48px;
+      line-height: 72px;
+    }
+  }
+}
+@media (max-width: 768px) {
+  .modal {
+    &__content {
+      max-width: 576px;
+    }
+    &__title {
+      max-width: 576px;
+    }
+  }
+}
+@media (max-width: 500px) {
+  .modal {
+    &__content {
+      padding: 0 16px;
+      height: 632px;
+      display: flex;
+      flex-direction: column;
+
+      justify-content: center;
+    }
+
+    &__title {
+      max-width: 320px;
+      font-weight: 600;
+      font-size: 32px;
+      line-height: 36px;
+      margin-bottom: 24px;
+    }
+  }
+}
+@media (max-width: 360px) {
+    .modal {
+          &__close {
+      top: 12px;
+      right: 12px;
+    }
+    }
 }
 </style>

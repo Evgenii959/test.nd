@@ -1,6 +1,12 @@
 <template>
   <header class="header">
-    <img src="../assets/logo.svg" />
+    <img src="../assets/logo.svg" class="header__logo" alt="заметки" />
+    <img
+      v-if="isLoggedIn"
+      src="../assets/logo-mobile.svg"
+      class="header__logo-mobile"
+      alt="заметки"
+    />
 
     <button v-if="!isLoggedIn" class="header__button" @click="openLoginModal">
       <img src="../assets/enter.svg" class="header__button-img" alt="войти" />
@@ -16,7 +22,11 @@
           class="header__user-icon"
           @click="toggleLogoutModal"
         />
-        <LogoutModal :isOpen="isLogoutModalOpen" @logout="handleLogout" />
+        <LogoutModal
+          :isOpen="isLogoutModalOpen"
+          @logout="handleLogout"
+          @close="closeLogoutModal"
+        />
       </div>
     </div>
 
@@ -96,6 +106,9 @@ export default {
     closeRegisterModal() {
       this.isRegisterModalOpen = false;
     },
+    closeLogoutModal() {
+      this.isLogoutModalOpen = false;
+    },
     toggleLogoutModal() {
       this.isLogoutModalOpen = !this.isLogoutModalOpen;
     },
@@ -138,6 +151,7 @@ export default {
     line-height: 32px;
     color: #ffffff;
     margin: 0;
+    letter-spacing: 1.5px;
   }
   &__button-img {
     height: 32px;
@@ -152,17 +166,62 @@ export default {
     line-height: 28px;
     font-weight: 400;
   }
+  &__email {
+    margin: 0;
+    width: 200px;
+    text-align: end;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  &__logo-mobile {
+    display: none;
+  }
   &__user-wrapper {
     position: relative;
+    height: 56px;
   }
   &__user-icon {
     background-color: #1b2f46;
-    padding: 14px 20px;
     border-radius: 50%;
     cursor: pointer;
   }
   &__user-icon:hover {
     opacity: 0.7;
+  }
+}
+@media (max-width: 1366px) {
+  .header {
+    display: flex;
+    height: 96px;
+  }
+}
+@media (max-width: 768px) {
+  .header {
+    display: flex;
+    height: 96px;
+  }
+}
+@media (max-width: 600px) {
+  .header {
+    &__logo {
+      display: none;
+    }
+    &__email {
+      max-width: 200px;
+    }
+    &__logo-mobile {
+      display: flex;
+    }
+    &__user-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    &__user-icon {
+      width: 36px;
+      height: 36px;
+    }
   }
 }
 </style>

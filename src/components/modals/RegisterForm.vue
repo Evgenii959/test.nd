@@ -1,40 +1,34 @@
 <template>
   <form class="register" @submit.prevent="register">
-    <div class="register__form-group">
-      <label class="register__label" for="register__email">Email</label>
-      <input
-        class="register__input"
-        type="email"
-        id="register__email"
-        v-model="email"
-        required
-        placeholder="Введите Email"
-      />
-    </div>
-    <div class="register__form-group">
-      <label class="register__label" for="register__password">Пароль</label>
-      <input
-        class="register__input"
-        type="password"
-        id="register__password"
-        v-model="password"
-        required
-        placeholder="******"
-      />
-    </div>
-    <div class="register__form-group">
-      <label class="register__label" for="register__confirmPassword"
-        >Пароль еще раз</label
-      >
-      <input
-        class="register__input"
-        type="password"
-        id="register__confirmPassword"
-        v-model="confirmPassword"
-        required
-        placeholder="******"
-      />
-    </div>
+    <label class="register__label" for="register__email">Email</label>
+    <input
+      class="register__input"
+      type="email"
+      id="register__email"
+      v-model="email"
+      required
+      placeholder="Введите Email"
+    />
+    <label class="register__label" for="register__password">Пароль</label>
+    <input
+      class="register__input"
+      type="password"
+      id="register__password"
+      v-model="password"
+      required
+      placeholder="******"
+    />
+    <label class="register__label" for="register__confirmPassword"
+      >Пароль еще раз</label
+    >
+    <input
+      class="register__input"
+      type="password"
+      id="register__confirmPassword"
+      v-model="confirmPassword"
+      required
+      placeholder="******"
+    />
     <div class="register__block-submit">
       <p class="register__registration">
         У вас нет аккаунта?
@@ -98,7 +92,7 @@ export default {
 .register {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  width: 100%;
 
   &__form-group {
     display: flex;
@@ -116,17 +110,37 @@ export default {
     background-color: #ffffff;
     border-radius: 36px;
     padding: 23px 28px;
-    width: 620px;
+    width: 100%;
+    box-sizing: border-box;
     font-weight: 400;
     font-size: 18px;
     line-height: 28px;
     color: #9da5af;
     border: 0;
+    margin-bottom: 24px;
+  }
+  &__input:hover {
+    border: 2px solid #b1c909;
+    padding: 21.5px 26.5px;
+  }
+  &__input:active {
+    border: 2px solid #b1c909;
+    padding: 21.5px 26.5px;
+    outline: none;
+  }
+  &__input:focus {
+    border: 2px solid #b1c909;
+    padding: 21.5px 26.5px;
+    outline: none;
+  }
+  &__input:placeholder {
+    color: #9da5af;
   }
   &__block-submit {
     display: flex;
     justify-content: space-between;
     width: 100%;
+    margin-top: 16px;
   }
   &__registration {
     font-weight: 400;
@@ -141,7 +155,9 @@ export default {
     color: #b1c909;
   }
   &__button {
-    padding: 12px 24px;
+    font-family: 'Montserrat';
+    padding: 0 24px;
+    height: 56px;
     background-color: #b1c909;
     border-radius: 32px;
     font-weight: 500;
@@ -150,6 +166,42 @@ export default {
     color: #ffffff;
     cursor: pointer;
     border: 0;
+  }
+}
+@media (max-width: 1366px) {
+  .register {
+    &__registration {
+      max-width: 200px;
+      margin: 0;
+    }
+  }
+}
+@media (max-width: 768px) {
+  .register {
+    &__input {
+      margin-bottom: 16px;
+    }
+    &__block-submit {
+      flex-direction: column;
+      align-items: center;
+    }
+    &__button {
+      order: 1;
+      width: 100%;
+    }
+    &__registration {
+      order: 2;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 24px;
+      max-width: 400px;
+      margin-top: 10px;
+    }
+    &__link {
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 24px;
+    }
   }
 }
 </style>

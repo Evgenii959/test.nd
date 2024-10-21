@@ -83,7 +83,7 @@ export default {
       }
     },
     async deleteNote(id) {
-      console.log(id)
+      console.log(id);
       const token = localStorage.getItem('accessToken');
       try {
         const response = await fetch(`https://dist.nd.ru/api/notes/${id}`, {
@@ -125,15 +125,19 @@ export default {
   justify-content: center;
   border: none;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  z-index: 5;
+  box-shadow: 0 15px 46px -10px rgba(0, 0, 0, 0.6);
 }
 
 .add-card-btn:hover {
-  background-color: #0056b3;
+  opacity: 0.7;
 }
 
 .list {
   display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 40px 0 0;
   gap: 40px;
 }
 .card {
@@ -146,16 +150,20 @@ export default {
   border: 0;
   z-index: 0;
   box-shadow: 0 15px 15px -10px rgba(0, 0, 0, 0.4);
+  word-wrap: break-word;
+  word-break: break-word;
   &__title {
     font-weight: 600;
     font-size: 24px;
     line-height: 32px;
+    margin: 0;
   }
   &__content {
     font-weight: 500;
     font-size: 20px;
     line-height: 32px;
     width: 450px;
+    margin: 40px 0 48px;
   }
   &__button {
     display: flex;
@@ -208,5 +216,39 @@ export default {
   border-radius: 0 0 0 8px;
   clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 100%);
   z-index: 2;
+}
+@media (max-width: 1366px) {
+  .list {
+    gap: 20px;
+  }
+  .card {
+    max-width: 332px;
+    &__content {
+      width: 333px;
+    }
+  }
+}
+@media (max-width: 768px) {
+  .card {
+    width: 100%;
+    max-width: 688px;
+    &__content {
+      width: 333px;
+    }
+  }
+}
+@media (max-width: 360px) {
+  .list {
+    margin-top: 20px;
+  }
+  .card {
+    max-width: 320px;
+    &__content {
+      width: 264px;
+    }
+    &__title {
+      max-width: 250px;
+    }
+  }
 }
 </style>
