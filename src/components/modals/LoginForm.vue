@@ -1,5 +1,5 @@
 <template>
-  <form class="login" @submit.prevent="login">
+  <form class="login" @submit.prevent="login" novalidate>
     <label class="login__label" for="login__email">Email</label>
     <input
       class="login__input"
@@ -9,17 +9,27 @@
       required
       placeholder="Введите значение"
     />
-
+    <span class="login__error" v-if="errors.email">{{ errors.email }}</span>
     <label class="login__label" for="password">Пароль</label>
-    <input
-      class="login__input"
-      type="password"
-      id="password"
-      v-model="password"
-      required
-      placeholder="******"
-    />
-
+    <div class="login__input-wrapper">
+      <input
+        class="login__input"
+        :type="passwordVisible ? 'text' : 'password'"
+        id="login__password"
+        v-model="password"
+        required
+        placeholder="******"
+      />
+      <div class="login__icon-password" @click="togglePasswordVisibility">
+        <img
+          :src="passwordVisible ? visibleIcon : invisibleIcon"
+          alt="видимость"
+        />
+      </div>
+    </div>
+    <span class="login__error" v-if="errors.password">{{
+      errors.password
+    }}</span>
     <div class="login__block-submit">
       <p class="login__registration">
         У вас нет аккаунта?
@@ -33,14 +43,47 @@
 </template>
 
 <script>
+import visibleIcon from '../../assets/images/visible.svg';
+import invisibleIcon from '../../assets/images/invisible.svg';
+import {
+  validateEmail,
+  validatePassword,
+} from '../../validation/validation.js';
+
 export default {
   data() {
     return {
       email: '',
       password: '',
+      passwordVisible: false,
+      visibleIcon,
+      invisibleIcon,
+      errors: {},
     };
   },
+  watch: {
+    email(value) {
+      if (!value) {
+        this.errors.email = 'E-Mail не может быть пустым';
+      } else if (!validateEmail(value)) {
+        this.errors.email = 'Невалидный адрес электронной почты';
+      } else {
+        this.errors.email = '';
+      }
+    },
+    password(value) {
+      const passwordErrors = validatePassword(value);
+      if (passwordErrors.length > 0) {
+        this.errors.password = passwordErrors.join('. ');
+      } else {
+        this.errors.password = '';
+      }
+    },
+  },
   methods: {
+    togglePasswordVisibility() {
+      this.passwordVisible = !this.passwordVisible;
+    },
     openRegisterModal() {
       this.$emit('open-register-modal');
     },
@@ -58,25 +101,22 @@ export default {
           },
           body: JSON.stringify(userData),
         });
+        const data = await response.json();
 
         if (response.ok) {
-          const data = await response.json();
-
           if (data.accessToken) {
             localStorage.setItem('accessToken', data.accessToken);
             localStorage.setItem('userEmail', this.email);
             this.$emit('login-success', this.email);
-            console.log('Токен сохранен:', data.accessToken);
-
+            
             await this.fetchProtectedData();
-
             this.email = '';
             this.password = '';
           } else {
             console.error('Токен не был возвращен.');
           }
         } else {
-          console.error('Ошибка авторизации:', response.statusText);
+          console.error(data.message);
         }
       } catch (error) {
         console.error('Ошибка при авторизации:', error);
@@ -125,7 +165,11 @@ export default {
     font-size: 18px;
     line-height: 28px;
     color: #9da5af;
-    margin: 0 0 8px 24px;
+    margin: -5px 0 8px 24px;
+  }
+  &__input-wrapper {
+    position: relative;
+    width: 100%;
   }
   &__input {
     font-family: 'Montserrat';
@@ -137,26 +181,41 @@ export default {
     font-weight: 400;
     font-size: 18px;
     line-height: 28px;
-    color: #9da5af;
+    color: #0a1f38;
     border: 0;
-    margin-bottom: 24px;
+    margin-bottom: 29px;
+    &:hover {
+      border: 2px solid #b1c909;
+      padding: 21.5px 26.5px;
+    }
+    &:active {
+      border: 2px solid #b1c909;
+      padding: 21.5px 26.5px;
+      outline: none;
+    }
+    &:focus {
+      border: 2px solid #b1c909;
+      padding: 21.5px 26.5px;
+      outline: none;
+    }
+    &:placeholder {
+      color: #9da5af;
+    }
   }
-  &__input:hover {
-    border: 2px solid #b1c909;
-    padding: 21.5px 26.5px;
+  &__icon-password {
+    position: absolute;
+    top: 28px;
+    right: 29px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
   }
-  &__input:active {
-    border: 2px solid #b1c909;
-    padding: 21.5px 26.5px;
-    outline: none;
-  }
-  &__input:focus {
-    border: 2px solid #b1c909;
-    padding: 21.5px 26.5px;
-    outline: none;
-  }
-  &__input:placeholder {
-    color: #9da5af;
+  &__error {
+    margin: -28px 0 0 24px;
+    color: #ff7461;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
   }
   &__block-submit {
     display: flex;
@@ -175,6 +234,9 @@ export default {
     font-size: 18px;
     line-height: 28px;
     color: #b1c909;
+  }
+  &__link:hover {
+    color: #ffffff;
   }
   &__button {
     font-family: 'Montserrat';

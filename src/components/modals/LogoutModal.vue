@@ -1,6 +1,6 @@
 <template>
   <div v-if="isOpen" class="modal" @click.self="close">
-    <div class="modal-content">
+    <div class="modal-content" @click.stop>
       <p class="modal__text" @click="handleLogout">Выйти</p>
     </div>
   </div>

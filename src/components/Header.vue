@@ -1,15 +1,23 @@
 <template>
   <header class="header">
-    <img src="../assets/logo.svg" class="header__logo" alt="заметки" />
     <img
-      v-if="isLoggedIn"
-      src="../assets/logo-mobile.svg"
+      v-if="isLoggedIn && isMobile && isProfilePath"
+      src="../assets/images/logo-mobile.svg"
       class="header__logo-mobile"
       alt="заметки"
     />
-
+    <img
+      v-else
+      src="../assets/images/logo.svg"
+      class="header__logo"
+      alt="заметки"
+    />
     <button v-if="!isLoggedIn" class="header__button" @click="openLoginModal">
-      <img src="../assets/enter.svg" class="header__button-img" alt="войти" />
+      <img
+        src="../assets/images/enter.svg"
+        class="header__button-img"
+        alt="войти"
+      />
       <p class="header__button-text">Вход</p>
     </button>
 
@@ -17,7 +25,7 @@
       <p class="header__email">{{ userEmail }}</p>
       <div class="header__user-wrapper">
         <img
-          src="../assets/user.svg"
+          src="../assets/images/user.svg"
           alt="пользователь"
           class="header__user-icon"
           @click="toggleLogoutModal"
@@ -79,7 +87,13 @@ export default {
       registerTitle: 'Регистрация',
       isLoggedIn: false,
       userEmail: '',
+      isMobile: false,
     };
+  },
+  computed: {
+    isProfilePath() {
+      return this.$route.path === '/profile';
+    },
   },
   created() {
     const token = localStorage.getItem('accessToken');
@@ -90,6 +104,13 @@ export default {
     } else {
       console.log('Токен не найден.');
     }
+  },
+  mounted() {
+    this.handleResize();
+    window.addEventListener('resize', this.handleResize);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize);
   },
   methods: {
     openLoginModal() {
@@ -122,6 +143,9 @@ export default {
       this.isLoggedIn = false;
       this.userEmail = '';
       this.$router.push('/');
+    },
+    handleResize() {
+      this.isMobile = window.innerWidth < 600;
     },
   },
 };
@@ -196,16 +220,10 @@ export default {
     height: 96px;
   }
 }
-@media (max-width: 768px) {
-  .header {
-    display: flex;
-    height: 96px;
-  }
-}
 @media (max-width: 600px) {
   .header {
     &__logo {
-      display: none;
+      width: 154px;
     }
     &__email {
       max-width: 200px;

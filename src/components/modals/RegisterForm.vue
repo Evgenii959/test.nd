@@ -9,26 +9,53 @@
       required
       placeholder="Введите Email"
     />
+    <span class="register__error" v-if="errors.email">{{ errors.email }}</span>
     <label class="register__label" for="register__password">Пароль</label>
-    <input
-      class="register__input"
-      type="password"
-      id="register__password"
-      v-model="password"
-      required
-      placeholder="******"
-    />
+    <div class="register__input-wrapper">
+      <input
+        class="register__input"
+        :type="passwordVisible ? 'text' : 'password'"
+        id="register__password"
+        v-model="password"
+        required
+        placeholder="******"
+      />
+
+      <div class="register__icon-password" @click="togglePasswordVisibility">
+        <img
+          :src="passwordVisible ? visibleIcon : invisibleIcon"
+          alt="видимость"
+        />
+      </div>
+    </div>
+    <span class="register__error" v-if="errors.password">{{
+      errors.password
+    }}</span>
     <label class="register__label" for="register__confirmPassword"
       >Пароль еще раз</label
     >
-    <input
-      class="register__input"
-      type="password"
-      id="register__confirmPassword"
-      v-model="confirmPassword"
-      required
-      placeholder="******"
-    />
+    <div class="register__input-wrapper">
+      <input
+        class="register__input"
+        :type="confirmPasswordVisible ? 'text' : 'password'"
+        id="register__confirmPassword"
+        v-model="confirmPassword"
+        required
+        placeholder="******"
+      />
+      <div
+        class="register__icon-password"
+        @click="toggleConfirmPasswordVisibility"
+      >
+        <img
+          :src="confirmPasswordVisible ? visibleIcon : invisibleIcon"
+          alt="видимость"
+        />
+      </div>
+    </div>
+    <span class="register__error" v-if="errors.confirmPassword">{{
+      errors.confirmPassword
+    }}</span>
     <div class="register__block-submit">
       <p class="register__registration">
         У вас нет аккаунта?
@@ -42,15 +69,64 @@
 </template>
 
 <script>
+import visibleIcon from '../../assets/images/visible.svg';
+import invisibleIcon from '../../assets/images/invisible.svg';
+import {
+  validateEmail,
+  validatePassword,
+  validateConfirmPassword,
+} from '../../validation/validation.js';
+
 export default {
   data() {
     return {
       email: '',
       password: '',
       confirmPassword: '',
+      passwordVisible: false,
+      confirmPasswordVisible: false,
+      visibleIcon,
+      invisibleIcon,
+      errors: {},
     };
   },
+  watch: {
+    email(value) {
+      if (!value) {
+        this.errors.email = 'E-Mail не может быть пустым';
+      } else if (!validateEmail(value)) {
+        this.errors.email = 'Невалидный адрес электронной почты';
+      } else {
+        this.errors.email = '';
+      }
+    },
+    password(value) {
+      const passwordErrors = validatePassword(value);
+      if (passwordErrors.length > 0) {
+        this.errors.password = passwordErrors.join('. ');
+      } else {
+        this.errors.password = '';
+      }
+    },
+    confirmPassword(value) {
+      const passwordConfirmErrors = validateConfirmPassword(
+        value,
+        this.password
+      );
+      if (passwordConfirmErrors.length > 0) {
+        this.errors.confirmPassword = passwordConfirmErrors.join('. ');
+      } else {
+        this.errors.confirmPassword = '';
+      }
+    },
+  },
   methods: {
+    togglePasswordVisibility() {
+      this.passwordVisible = !this.passwordVisible;
+    },
+    toggleConfirmPasswordVisibility() {
+      this.confirmPasswordVisible = !this.confirmPasswordVisible;
+    },
     loginModal() {
       this.$emit('open-login-modal');
     },
@@ -77,7 +153,6 @@ export default {
         const data = await response.json();
 
         if (response.ok) {
-          console.log('Регистрация прошла успешно:', data);
           this.$emit('open-login-modal');
           this.$emit('close-register-modal');
         }
@@ -94,16 +169,15 @@ export default {
   flex-direction: column;
   width: 100%;
 
-  &__form-group {
-    display: flex;
-    flex-direction: column;
-  }
   &__label {
     font-weight: 400;
     font-size: 18px;
     line-height: 28px;
     color: #9da5af;
-    margin: 0 0 8px 24px;
+    margin: -5px 0 8px 24px;
+  }
+  &__input-wrapper {
+    position: relative;
   }
   &__input {
     font-family: 'Montserrat';
@@ -115,26 +189,41 @@ export default {
     font-weight: 400;
     font-size: 18px;
     line-height: 28px;
-    color: #9da5af;
+    color: #0a1f38;
     border: 0;
-    margin-bottom: 24px;
+    margin-bottom: 29px;
+    &:hover {
+      border: 2px solid #b1c909;
+      padding: 21.5px 26.5px;
+    }
+    &:active {
+      border: 2px solid #b1c909;
+      padding: 21.5px 26.5px;
+      outline: none;
+    }
+    &:focus {
+      border: 2px solid #b1c909;
+      padding: 21.5px 26.5px;
+      outline: none;
+    }
+    &:placeholder {
+      color: #9da5af;
+    }
   }
-  &__input:hover {
-    border: 2px solid #b1c909;
-    padding: 21.5px 26.5px;
+  &__icon-password {
+    position: absolute;
+    top: 28px;
+    right: 29px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
   }
-  &__input:active {
-    border: 2px solid #b1c909;
-    padding: 21.5px 26.5px;
-    outline: none;
-  }
-  &__input:focus {
-    border: 2px solid #b1c909;
-    padding: 21.5px 26.5px;
-    outline: none;
-  }
-  &__input:placeholder {
-    color: #9da5af;
+  &__error {
+    margin: -28px 0 0 24px;
+    color: #ff7461;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
   }
   &__block-submit {
     display: flex;
@@ -153,6 +242,9 @@ export default {
     font-size: 18px;
     line-height: 28px;
     color: #b1c909;
+  }
+  &__link:hover {
+    color: #ffffff;
   }
   &__button {
     font-family: 'Montserrat';

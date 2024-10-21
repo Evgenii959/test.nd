@@ -1,7 +1,7 @@
 <template>
   <div v-if="isOpen" class="modal" @click.self="close" @keydown.esc="close">
     <div class="modal__content">
-      <img src="../../assets/close.svg" class="modal__close" @click="close" />
+      <img src="../../assets/images/close.svg" class="modal__close" @click="close" />
       <h2 class="modal__title">{{ modalTitle }}</h2>
       <slot />
     </div>
