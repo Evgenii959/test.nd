@@ -1,3 +1,5 @@
-export default defineConfig({
-  base: '/test.nd/'
-});
+module.exports = {
+  publicPath: process.env.NODE_ENV === 'production'
+  ? '/test.nd/'
+  : '/'
+}
