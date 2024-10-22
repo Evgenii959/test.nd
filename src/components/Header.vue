@@ -165,9 +165,12 @@ export default {
     padding: 12px 24px;
     border: 0;
     cursor: pointer;
-  }
-  &__button:hover {
-    opacity: 0.8;
+    &:hover {
+      background-color: #97ab0d;
+    }
+    &:active {
+      background-color: #819400;
+    }
   }
   &__button-text {
     font-weight: 500;

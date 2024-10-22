@@ -115,7 +115,10 @@ export default {
   z-index: 5;
   box-shadow: 0 15px 46px -10px rgba(0, 0, 0, 0.6);
   &:hover {
-    opacity: 0.7;
+    background-color: #97ab0d;
+  }
+  &:active {
+    background-color: #819400;
   }
 }
 </style>

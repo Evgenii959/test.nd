@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="addNote">
+  <form @submit.prevent="addNote" class="note">
     <div class="note__form-group">
       <label class="note__label" for="name">Название заметки</label>
       <input
@@ -110,10 +110,6 @@ export default {
 
 <style lang="scss" scoped>
 .note {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-
   &__form-group {
     display: flex;
     flex-direction: column;
@@ -162,7 +158,7 @@ export default {
   }
   &__input:focus {
     border: 2px solid #b1c909;
-    padding: 21.5px 26.5px;
+    padding: 21.2px 26.5px;
     outline: none;
   }
   &__input:placeholder {
@@ -181,6 +177,12 @@ export default {
     cursor: pointer;
     border: 0;
     margin-top: 40px;
+    &:hover {
+      background-color: #97ab0d;
+    }
+    &:active {
+      background-color: #819400;
+    }
   }
   &__error {
     margin: -28px 0 0 24px;
@@ -220,16 +222,19 @@ export default {
 }
 @media (max-width: 768px) {
   .note {
+    &__input {
+      width: 100%;
+    }
     &__span {
       margin-right: 40px;
       margin-bottom: 16px;
     }
     &__label {
-      margin-top: 0px;
+      margin-top: 5px;
     }
     &__button {
       margin-top: 28px;
-      width: 100%;
+      width: 150px;
     }
 
     &__error {
@@ -239,11 +244,25 @@ export default {
     }
   }
 }
-@media (max-width: 550px) {
+@media (max-width: 500px) {
   .note {
+    &__title {
+      margin-bottom: 24px;
+    }
     &__error {
       max-width: 200px;
     }
+    &__button {
+      margin-top: 12px;
+    }
+    &__span {
+      margin-right: 24px;
+    }
+  }
+}
+@media (max-width: 360px) {
+  .note {
+    max-width: 320px;
   }
 }
 </style>

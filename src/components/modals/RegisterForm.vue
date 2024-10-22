@@ -8,6 +8,7 @@
       v-model="email"
       required
       placeholder="Введите Email"
+      autocomplete="email"
     />
     <span class="register__error" v-if="errors.email">{{ errors.email }}</span>
     <label class="register__label" for="register__password">Пароль</label>
@@ -19,6 +20,7 @@
         v-model="password"
         required
         placeholder="******"
+        autocomplete="password"
       />
 
       <div class="register__icon-password" @click="togglePasswordVisibility">
@@ -42,6 +44,7 @@
         v-model="confirmPassword"
         required
         placeholder="******"
+        autocomplete="confirm-password"
       />
       <div
         class="register__icon-password"
@@ -92,32 +95,19 @@ export default {
   },
   watch: {
     email(value) {
-      if (!value) {
-        this.errors.email = 'E-Mail не может быть пустым';
-      } else if (!validateEmail(value)) {
-        this.errors.email = 'Невалидный адрес электронной почты';
-      } else {
-        this.errors.email = '';
-      }
+      const emailErrors = validateEmail(value);
+      this.errors.email = emailErrors.join('. ');
     },
     password(value) {
       const passwordErrors = validatePassword(value);
-      if (passwordErrors.length > 0) {
-        this.errors.password = passwordErrors.join('. ');
-      } else {
-        this.errors.password = '';
-      }
+      this.errors.password = passwordErrors.join('. ');
     },
     confirmPassword(value) {
       const passwordConfirmErrors = validateConfirmPassword(
         value,
         this.password
       );
-      if (passwordConfirmErrors.length > 0) {
-        this.errors.confirmPassword = passwordConfirmErrors.join('. ');
-      } else {
-        this.errors.confirmPassword = '';
-      }
+      this.errors.confirmPassword = passwordConfirmErrors;
     },
   },
   methods: {
@@ -227,9 +217,10 @@ export default {
   }
   &__block-submit {
     display: flex;
+    align-items: center;
     justify-content: space-between;
     width: 100%;
-    margin-top: 16px;
+    margin-top: 5px;
   }
   &__registration {
     font-weight: 400;
@@ -258,6 +249,12 @@ export default {
     color: #ffffff;
     cursor: pointer;
     border: 0;
+    &:hover {
+      background-color: #97ab0d;
+    }
+    &:active {
+      background-color: #819400;
+    }
   }
 }
 @media (max-width: 1366px) {
@@ -272,10 +269,45 @@ export default {
   .register {
     &__input {
       margin-bottom: 16px;
+      width: 100%;
     }
+    &__block-submit {
+      display: flex;
+      align-items: center;
+      margin-top: 22px;
+    }
+    &__label {
+      margin-top: 5px;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 28px;
+    }
+    &__link {
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 28px;
+    }
+    &__registration {
+      max-width: 400px;
+    }
+    &__error {
+      margin-top: -15px;
+      margin-bottom: -13px;
+      font-size: 14px;
+    }
+  }
+}
+@media (max-width: 400px) {
+  .register {
+    max-width: 320px;
     &__block-submit {
       flex-direction: column;
       align-items: center;
+      text-align: center;
+      margin-top: 12px;
+    }
+    &__label {
+      margin-top: 0;
     }
     &__button {
       order: 1;
@@ -287,12 +319,16 @@ export default {
       font-size: 14px;
       line-height: 24px;
       max-width: 400px;
-      margin-top: 10px;
+      width: 100%;
+      margin-top: 20px;
     }
     &__link {
-      font-weight: 700;
+      font-weight: 400;
       font-size: 14px;
       line-height: 24px;
+    }
+    &__error {
+      font-size: 12px;
     }
   }
 }

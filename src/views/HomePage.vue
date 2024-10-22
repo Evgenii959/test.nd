@@ -7,7 +7,11 @@
         <p class="login__subtitle">Не забывай о важном, храни его в облаке.</p>
       </div>
       <div class="login__image-container">
-        <img src="../assets/images/bg-login.png" class="login__image" alt="заметка" />
+        <img
+          src="../assets/images/bg-login.png"
+          class="login__image"
+          alt="заметка"
+        />
       </div>
     </div>
   </div>
@@ -22,7 +26,7 @@ export default {
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .login {
   display: flex;
   align-items: center;
@@ -70,9 +74,9 @@ export default {
   }
 }
 @media (max-width: 1000px) {
-    .login {
-      &__title {
-        font-size: 80px;
+  .login {
+    &__title {
+      font-size: 80px;
     }
   }
 }

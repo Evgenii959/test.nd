@@ -1,6 +1,18 @@
-export function validateEmail(email) {
+export function validateEmailField(email) {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return re.test(email);
+}
+
+export function validateEmail(email) {
+  const errors = [];
+
+  if (!email) {
+    errors.push('E-Mail не может быть пустым');
+  } else if (!validateEmailField(email)) {
+    errors.push('Невалидный адрес электронной почты');
+  }
+
+  return errors;
 }
 
 export function validatePassword(password) {
@@ -52,14 +64,21 @@ export function validateNameNote(name) {
     errors.push('Название не может быть длиннее 100 символов');
   }
 
+  if (name.length <= 0) {
+    errors.push('Название не может быть пустым');
+  }
+
   return errors;
 }
 
 export function validateTextarea(textarea) {
   const errors = [];
-  console.log(textarea);
   if (textarea.length >= 500) {
     errors.push('Текст не может быть длиннее 500 символов');
+  }
+
+  if (textarea.length <= 0) {
+    errors.push('Название не может быть пустым');
   }
 
   return errors;

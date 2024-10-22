@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isOpen" class="modal" @click.self="close">
+  <div v-if="isOpen" class="modal">
     <div class="modal-content" @click.stop>
       <p class="modal__text" @click="handleLogout">Выйти</p>
     </div>
@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     close() {
-      this.$emit('close');
+      this.$emit('close-logout-modal');
     },
     handleKeyDown(event) {
       if (event.key === 'Escape') {
@@ -55,7 +55,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .modal {
   position: absolute;
   background-color: #1b2f46;

@@ -1,7 +1,11 @@
 <template>
   <div v-if="isOpen" class="modal" @click.self="close" @keydown.esc="close">
     <div class="modal__content">
-      <img src="../../assets/images/close.svg" class="modal__close" @click="close" />
+      <img
+        src="../../assets/images/close.svg"
+        class="modal__close"
+        @click="close"
+      />
       <h2 class="modal__title">{{ modalTitle }}</h2>
       <slot />
     </div>
@@ -68,6 +72,12 @@ export default {
     width: 24px;
     height: 24px;
     border: 0;
+    &:hover {
+      background-color: #97ab0d;
+    }
+    &:active {
+      background-color: #819400;
+    }
   }
   &__title {
     font-weight: 600;
@@ -99,6 +109,7 @@ export default {
     }
     &__title {
       max-width: 576px;
+      margin-bottom: 35px;
     }
   }
 }
@@ -109,7 +120,6 @@ export default {
       height: 632px;
       display: flex;
       flex-direction: column;
-
       justify-content: center;
     }
 
@@ -123,11 +133,13 @@ export default {
   }
 }
 @media (max-width: 360px) {
-    .modal {
-          &__close {
+  .modal {
+    padding: 0 4px;
+    margin: 0 auto;
+    &__close {
       top: 12px;
-      right: 12px;
+      right: 20px;
     }
-    }
+  }
 }
 </style>

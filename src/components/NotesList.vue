@@ -42,7 +42,7 @@ export default {
 }
 @media (max-width: 360px) {
   .list {
-    margin-top: 20px;
+    margin-top: 12px;
   }
 }
 </style>

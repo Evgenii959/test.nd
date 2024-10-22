@@ -8,6 +8,7 @@
       v-model="email"
       required
       placeholder="Введите значение"
+      autocomplete="email"
     />
     <span class="login__error" v-if="errors.email">{{ errors.email }}</span>
     <label class="login__label" for="password">Пароль</label>
@@ -19,6 +20,7 @@
         v-model="password"
         required
         placeholder="******"
+        autocomplete="password"
       />
       <div class="login__icon-password" @click="togglePasswordVisibility">
         <img
@@ -39,6 +41,9 @@
       </p>
       <button class="login__button" type="submit">Войти</button>
     </div>
+    <span class="login__error-user" v-if="errors.general">{{
+      errors.general
+    }}</span>
   </form>
 </template>
 
@@ -63,21 +68,12 @@ export default {
   },
   watch: {
     email(value) {
-      if (!value) {
-        this.errors.email = 'E-Mail не может быть пустым';
-      } else if (!validateEmail(value)) {
-        this.errors.email = 'Невалидный адрес электронной почты';
-      } else {
-        this.errors.email = '';
-      }
+      const emailErrors = validateEmail(value);
+      this.errors.email = emailErrors.join('. ');
     },
     password(value) {
       const passwordErrors = validatePassword(value);
-      if (passwordErrors.length > 0) {
-        this.errors.password = passwordErrors.join('. ');
-      } else {
-        this.errors.password = '';
-      }
+      this.errors.password = passwordErrors.join('. ');
     },
   },
   methods: {
@@ -89,6 +85,9 @@ export default {
     },
     async login() {
       try {
+        // Очистка ошибок перед новым запросом
+        this.errors = {};
+
         const userData = {
           email: this.email,
           password: this.password,
@@ -101,6 +100,7 @@ export default {
           },
           body: JSON.stringify(userData),
         });
+
         const data = await response.json();
 
         if (response.ok) {
@@ -108,18 +108,25 @@ export default {
             localStorage.setItem('accessToken', data.accessToken);
             localStorage.setItem('userEmail', this.email);
             this.$emit('login-success', this.email);
-            
+
             await this.fetchProtectedData();
             this.email = '';
             this.password = '';
           } else {
             console.error('Токен не был возвращен.');
           }
+        } else if (response.status === 404) {
+          this.$set(
+            this.errors,
+            'general',
+            'Пользователь с таким логином не найден'
+          );
         } else {
-          console.error(data.message);
+          this.errors.general = data.message || 'Ошибка авторизации';
         }
       } catch (error) {
         console.error('Ошибка при авторизации:', error);
+        this.errors.general = 'Произошла ошибка при авторизации';
       }
     },
 
@@ -217,6 +224,18 @@ export default {
     font-size: 18px;
     line-height: 28px;
   }
+  &__error-user {
+    margin-top: 20px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    color: #ff7461;
+    background-color: rgba(255, 116, 97, 0.1);
+    padding: 8px 20px;
+    border-radius: 24px;
+    width: 100%;
+    box-sizing: border-box;
+  }
   &__block-submit {
     display: flex;
     justify-content: space-between;
@@ -250,6 +269,12 @@ export default {
     color: #ffffff;
     cursor: pointer;
     border: 0;
+    &:hover {
+      background-color: #97ab0d;
+    }
+    &:active {
+      background-color: #819400;
+    }
   }
 }
 @media (max-width: 1366px) {
@@ -264,10 +289,45 @@ export default {
   .login {
     &__input {
       margin-bottom: 16px;
+      width: 100%;
     }
+    &__block-submit {
+      display: flex;
+      align-items: center;
+      margin-top: 22px;
+    }
+    &__label {
+      margin-top: 5px;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 28px;
+    }
+    &__link {
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 28px;
+    }
+    &__registration {
+      max-width: 400px;
+    }
+    &__error {
+      margin-top: -15px;
+      margin-bottom: -13px;
+      font-size: 14px;
+    }
+  }
+}
+@media (max-width: 400px) {
+  .login {
+    max-width: 320px;
     &__block-submit {
       flex-direction: column;
       align-items: center;
+      text-align: center;
+      margin-top: 12px;
+    }
+    &__label {
+      margin-top: 0;
     }
     &__button {
       order: 1;
@@ -279,12 +339,16 @@ export default {
       font-size: 14px;
       line-height: 24px;
       max-width: 400px;
+      width: 100%;
       margin-top: 10px;
     }
     &__link {
-      font-weight: 700;
+      font-weight: 400;
       font-size: 14px;
       line-height: 24px;
+    }
+    &__error {
+      font-size: 12px;
     }
   }
 }
