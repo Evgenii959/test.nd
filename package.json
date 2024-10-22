@@ -6,6 +6,7 @@
   "scripts": {
     "build": "vite build && touch dist/.nojekyll",
     "dev": "vite",
+    "serve": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },

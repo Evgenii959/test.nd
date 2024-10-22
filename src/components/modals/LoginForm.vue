@@ -85,7 +85,6 @@ export default {
     },
     async login() {
       try {
-        // Очистка ошибок перед новым запросом
         this.errors = {};
 
         const userData = {
