@@ -4,7 +4,7 @@
   "description": "test",
   "private": true,
   "scripts": {
-    "build": "vite build",
+    "build": "vite build && touch dist/.nojekyll",
     "dev": "vite",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
