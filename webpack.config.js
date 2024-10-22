@@ -3,12 +3,17 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
 
 module.exports = {
+  stats: {
+    children: true,
+  },
+  devtool: false,
   mode: 'development',
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'js/[name].js',
-    publicPath: '/test.nd/',
+    filename: 'index.js',
+    assetModuleFilename: path.join('images', '[name].[contenthash][ext]'),
+    publicPath: '',
   },
   devServer: {
     compress: true,
@@ -27,9 +32,6 @@ module.exports = {
       {
         test: /\.(png|svg|jpg|gif|woff(2)?|eot|ttf|otf)$/,
         type: 'asset/resource',
-        generator: {
-          filename: 'images/[hash][ext][query]',
-        },
       },
       {
         test: /\.js$/,
@@ -46,6 +48,12 @@ module.exports = {
       },
     ],
   },
+  resolve: {
+    alias: {
+      vue$: 'vue/dist/vue.esm.js',
+    },
+    extensions: ['.js', '.vue', '.json', '.scss', '.css'],
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
@@ -54,10 +62,4 @@ module.exports = {
     }),
     new VueLoaderPlugin(),
   ],
-  resolve: {
-    alias: {
-      vue$: 'vue/dist/vue.esm.js',
-    },
-    extensions: ['.js', '.vue', '.json'],
-  },
 };
