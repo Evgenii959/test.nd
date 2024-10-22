@@ -1,5 +1,5 @@
 {
-  "name": "test-nd",
+  "name": "test.nd",
   "version": "0.1.0",
   "description": "test",
   "private": true,
@@ -12,13 +12,13 @@
   },
   "dependencies": {
     "core-js": "^3.38.1",
+    "vite": "^4.5.5",
+    "vite-plugin-vue2": "^2.0.3",
     "vue": "^2.7.16",
     "vue-router": "^3.6.5"
   },
   "devDependencies": {
     "gh-pages": "^6.2.0",
-    "sass": "^1.32.11",
-    "vite": "^4.5.5",
-    "vite-plugin-vue2": "^2.0.3"
+    "sass": "^1.32.11"
   }
 }
