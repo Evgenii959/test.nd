@@ -15,9 +15,9 @@
     "vue-router": "^3.6.5"
   },
   "devDependencies": {
-    "vite": "^4.5.5",
-    "vite-plugin-vue2": "^2.0.3",
     "gh-pages": "^6.2.0",
-    "sass": "^1.32.11"
+    "sass": "^1.32.11",
+    "vite": "^4.5.5",
+    "vite-plugin-vue2": "^2.0.3"
   }
 }
