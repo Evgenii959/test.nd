@@ -92,7 +92,7 @@ export default {
   },
   computed: {
     isProfilePath() {
-      return this.$route.path === '/profile';
+      return this.$route.path === '/test.nd/profile';
     },
   },
   created() {
@@ -137,12 +137,12 @@ export default {
       this.isLoggedIn = true;
       this.userEmail = email;
       this.closeLoginModal();
-      this.$router.push('/profile');
+      this.$router.push('/test.nd/profile');
     },
     handleLogout() {
       this.isLoggedIn = false;
       this.userEmail = '';
-      this.$router.push('/');
+      this.$router.push('/test.nd');
     },
     handleResize() {
       this.isMobile = window.innerWidth < 600;
