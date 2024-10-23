@@ -35,7 +35,7 @@ export default {
     margin-top: -50px;
   }
   &__title {
-    width: 488px;
+    max-width: 488px;
     font-weight: 900;
     font-size: 104px;
     line-height: 104px;
@@ -43,7 +43,7 @@ export default {
     margin: 0;
   }
   &__subtitle {
-    width: 394px;
+    max-width: 394px;
     font-weight: 400;
     font-size: 32px;
     line-height: 48px;
@@ -75,13 +75,20 @@ export default {
 }
 @media (max-width: 1000px) {
   .login {
+    gap: 30px;
     &__title {
-      font-size: 80px;
+      font-size: 70px;
+      line-height: 70px;
+    }
+    &__subtitle {
+      font-size: 32px;
+      line-height: 40px;
     }
   }
 }
 @media (max-width: 768px) {
   .login {
+    gap: 0;
     flex-direction: column;
     &__image-container {
       max-width: 628px;
@@ -96,9 +103,11 @@ export default {
     }
     &__title {
       font-size: 104px;
+      line-height: 104px;
     }
     &__subtitle {
       max-width: 582px;
+      line-height: 48px;
       width: 100%;
       margin-top: 20px;
     }
