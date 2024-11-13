@@ -65,7 +65,7 @@ export function validateNameNote(name) {
   }
 
   if (name.length <= 0) {
-    errors.push('Название не может быть пустым');
+    errors.push('Заголовок не может быть пустым');
   }
 
   return errors;
@@ -78,7 +78,7 @@ export function validateTextarea(textarea) {
   }
 
   if (textarea.length <= 0) {
-    errors.push('Название не может быть пустым');
+    errors.push('Содержимое не может быть пустым');
   }
 
   return errors;

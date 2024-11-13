@@ -59,21 +59,32 @@ export default {
     return {
       noteName: '',
       noteTextarea: '',
-      errors: {},
+      errors: {
+        noteName: '',
+        noteTextarea: '',
+      },
     };
   },
   watch: {
     noteName(name) {
-      const nameNoteErrors = validateNameNote(name);
-      this.errors.noteName = nameNoteErrors.join('. ');
+      this.errors.noteName = validateNameNote(name).join('. ');
     },
     noteTextarea(text) {
-      const textareaErrors = validateTextarea(text);
-      this.errors.noteTextarea = textareaErrors.join('. ');
+      this.errors.noteTextarea = validateTextarea(text).join('. ');
     },
   },
   methods: {
+    validateForm() {
+      this.errors.noteName = validateNameNote(this.noteName).join('. ');
+      this.errors.noteTextarea = validateTextarea(this.noteTextarea).join('. ');
+
+      return !(this.errors.noteName || this.errors.noteTextarea);
+    },
     async addNote() {
+      if (!this.validateForm()) {
+        return;
+      }
+
       const newNote = {
         title: this.noteName,
         content: this.noteTextarea,
@@ -146,23 +157,23 @@ export default {
     &_textarea:placeholder {
       color: #9da5af;
     }
-  }
-  &__input:hover {
-    border: 2px solid #b1c909;
-    padding: 21.5px 26.5px;
-  }
-  &__input:active {
-    border: 2px solid #b1c909;
-    padding: 21.5px 26.5px;
-    outline: none;
-  }
-  &__input:focus {
-    border: 2px solid #b1c909;
-    padding: 21.2px 26.5px;
-    outline: none;
-  }
-  &__input:placeholder {
-    color: #9da5af;
+    &:hover {
+      border: 2px solid #b1c909;
+      padding: 21.5px 26.5px;
+    }
+    &:active {
+      border: 2px solid #b1c909;
+      padding: 21.5px 26.5px;
+      outline: none;
+    }
+    &:focus {
+      border: 2px solid #b1c909;
+      padding: 21.2px 26.5px;
+      outline: none;
+    }
+    &:placeholder {
+      color: #9da5af;
+    }
   }
   &__button {
     font-family: 'Montserrat';

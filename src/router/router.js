@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import HomePage from '../views/HomePage.vue';
-import ProfilePage from '../views/ProfilePage.vue';
+import HomePage from '../pages/HomePage.vue';
+import ProfilePage from '../pages/ProfilePage.vue';
 
 Vue.use(Router);
 
