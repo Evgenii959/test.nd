@@ -70,7 +70,6 @@ export default {
       }
     },
     async deleteNote(id) {
-      console.log(id);
       const token = localStorage.getItem('accessToken');
       try {
         const response = await fetch(`https://dist.nd.ru/api/notes/${id}`, {
@@ -82,7 +81,6 @@ export default {
         });
         if (response.ok) {
           this.notes = this.notes.filter((note) => note.id !== id);
-          console.log('Карточка удалена.');
         } else {
           console.error('Ошибка при получении заметок:', response.statusText);
         }

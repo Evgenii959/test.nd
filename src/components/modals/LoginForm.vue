@@ -1,5 +1,5 @@
 <template>
-  <form class="login" @submit.prevent="login" novalidate>
+  <form class="login" @submit.prevent="signIn" novalidate>
     <label class="login__label" for="login__email">Email</label>
     <input
       class="login__input"
@@ -63,17 +63,18 @@ export default {
       passwordVisible: false,
       visibleIcon,
       invisibleIcon,
-      errors: {},
+      errors: {
+        email: '',
+        password: '',
+      },
     };
   },
   watch: {
-    email(value) {
-      const emailErrors = validateEmail(value);
-      this.errors.email = emailErrors.join('. ');
+    email(email) {
+      this.errors.email = validateEmail(email).join('. ');
     },
-    password(value) {
-      const passwordErrors = validatePassword(value);
-      this.errors.password = passwordErrors.join('. ');
+    password(password) {
+      this.errors.password = validatePassword(password).join('. ');
     },
   },
   methods: {
@@ -83,49 +84,47 @@ export default {
     openRegisterModal() {
       this.$emit('open-register-modal');
     },
-    async login() {
-      try {
-        this.errors = {};
 
-        const userData = {
+    validateForm() {
+      this.errors.email = validateEmail(this.email).join('. ');
+      this.errors.password = validatePassword(this.password).join('. ');
+
+      return !(this.errors.email || this.errors.password);
+    },
+
+    async signIn() {
+      if (!this.validateForm()) {
+        return;
+      }
+
+      try {
+        const response = await this.$api.auth.signIn({
           email: this.email,
           password: this.password,
-        };
-
-        const response = await fetch('https://dist.nd.ru/api/auth', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(userData),
         });
+        if (response.data.accessToken) {
+          localStorage.setItem('accessToken', response.data.accessToken);
+          localStorage.setItem('userEmail', this.email);
+          this.$emit('login-success', this.email);
 
-        const data = await response.json();
-
-        if (response.ok) {
-          if (data.accessToken) {
-            localStorage.setItem('accessToken', data.accessToken);
-            localStorage.setItem('userEmail', this.email);
-            this.$emit('login-success', this.email);
-
-            await this.fetchProtectedData();
-            this.email = '';
-            this.password = '';
-          } else {
-            console.error('Токен не был возвращен.');
-          }
-        } else if (response.status === 404) {
+          await this.fetchProtectedData();
+          this.email = '';
+          this.password = '';
+        } else {
+          console.error('Токен не был возвращен.');
+        }
+      } catch (error) {
+        if (error.response.status === 404) {
           this.$set(
             this.errors,
             'general',
             'Пользователь с таким логином не найден'
           );
+        } else if (error.response.status === 400) {
+          this.$set(this.errors, 'general', 'Ошибка авторизации');
         } else {
-          this.errors.general = data.message || 'Ошибка авторизации';
+          this.errors.general = 'Ошибка при сетевом запросе';
         }
-      } catch (error) {
-        console.error('Ошибка при авторизации:', error);
-        this.errors.general = 'Произошла ошибка при авторизации';
       }
     },
 

@@ -1,7 +1,7 @@
 <template>
   <div v-if="isOpen" class="modal">
     <div class="modal-content" @click.stop>
-      <p class="modal__text" @click="handleLogout">Выйти</p>
+      <p class="modal__text" @click="logOut">Выйти</p>
     </div>
   </div>
 </template>
@@ -29,7 +29,7 @@ export default {
         this.$emit('close');
       }
     },
-    async handleLogout() {
+    async logOut() {
       try {
         const token = localStorage.getItem('accessToken');
         const response = await fetch('https://dist.nd.ru/api/auth', {

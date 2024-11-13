@@ -1,5 +1,5 @@
 <template>
-  <form class="register" @submit.prevent="register">
+  <form class="register" @submit.prevent="signUp" novalidate>
     <label class="register__label" for="register__email">Email</label>
     <input
       class="register__input"
@@ -68,6 +68,9 @@
       </p>
       <button class="register__button" type="submit">Зарегистрироваться</button>
     </div>
+    <span class="register__error-user" v-if="errors.general">{{
+      errors.general
+    }}</span>
   </form>
 </template>
 
@@ -90,7 +93,10 @@ export default {
       confirmPasswordVisible: false,
       visibleIcon,
       invisibleIcon,
-      errors: {},
+      errors: {
+        email: '',
+        password: '',
+      },
     };
   },
   watch: {
@@ -107,7 +113,7 @@ export default {
         value,
         this.password
       );
-      this.errors.confirmPassword = passwordConfirmErrors;
+      this.errors.confirmPassword = passwordConfirmErrors.join('. ');
     },
   },
   methods: {
@@ -120,34 +126,40 @@ export default {
     loginModal() {
       this.$emit('open-login-modal');
     },
-    async register() {
-      if (this.password !== this.confirmPassword) {
-        alert('Пароли не совпадают');
+
+    validateForm() {
+      this.errors.email = validateEmail(this.email).join('. ');
+      this.errors.password = validatePassword(this.password).join('. ');
+
+      return !(this.errors.email || this.errors.password);
+    },
+
+    async signUp() {
+      if (!this.validateForm()) {
         return;
       }
+
       try {
-        const userData = {
+        const response = await this.$api.auth.signUp({
           email: this.email,
           password: this.password,
           confirm_password: this.confirmPassword,
-        };
-
-        const response = await fetch('https://dist.nd.ru/api/reg', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(userData),
         });
 
-        const data = await response.json();
-
-        if (response.ok) {
+        if (response.data.ok) {
           this.$emit('open-login-modal');
           this.$emit('close-register-modal');
         }
       } catch (error) {
-        console.error('Ошибка при регистрации:', error);
+        if (error.response.status === 409) {
+          this.$set(
+            this.errors,
+            'general',
+            'Пользователь с таким e-mail уже зарегистрирован'
+          );
+        } else {
+          this.$set(this.errors, 'general', 'Ошибка при регистрации:', error);
+        }
       }
     },
   },
@@ -255,6 +267,18 @@ export default {
     &:active {
       background-color: #819400;
     }
+  }
+  &__error-user {
+    margin-top: 20px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    color: #ff7461;
+    background-color: rgba(255, 116, 97, 0.1);
+    padding: 8px 20px;
+    border-radius: 24px;
+    width: 100%;
+    box-sizing: border-box;
   }
 }
 @media (max-width: 1366px) {
