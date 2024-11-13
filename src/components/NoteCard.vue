@@ -1,18 +1,30 @@
 <template>
   <li class="card">
-    <h3 class="card__title">{{ note.title }}</h3>
-    <p class="card__content">{{ note.content }}</p>
+    <article class="card__content-wrapper">
+      <h3 class="card__title">{{ note.title }}</h3>
+      <p class="card__content">{{ note.content }}</p>
+    </article>
     <div class="card__button-wrapper">
-      <button class="card__button" @click="$emit('delete-note')">
-        <img src="../assets/images/close.svg" alt="удаление" />
-        <p class="card__button-text">Удалить</p>
-      </button>
+      <Button
+        v-if="!isLoggedIn"
+        :buttonText="'Удалить'"
+        :iconAlt="'Удалить'"
+        :iconSrc="require('@/assets/images/close.svg')"
+        :buttonClass="'card__button'"
+        @click="$emit('delete-note')"
+      />
     </div>
   </li>
 </template>
 
 <script>
+import Button from './ui/Button.vue';
+
 export default {
+  name: 'NoteCard',
+  components: {
+    Button,
+  },
   props: {
     note: {
       type: Object,
@@ -56,17 +68,9 @@ export default {
     color: #ffffff;
     background-color: transparent;
     cursor: pointer;
-  }
-  &__icon {
     font-weight: 500;
     font-size: 20px;
     line-height: 32px;
-  }
-  &__button-text {
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 32px;
-    margin: 0;
   }
   &__button-wrapper {
     display: flex;

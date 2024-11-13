@@ -12,16 +12,16 @@
       class="header__logo"
       alt="заметки"
     />
-    <button v-if="!isLoggedIn" class="header__button" @click="openLoginModal">
-      <img
-        src="../assets/images/enter.svg"
-        class="header__button-img"
-        alt="войти"
-      />
-      <p class="header__button-text">Вход</p>
-    </button>
+    <Button
+      v-if="!isLoggedIn"
+      :buttonText="'Вход'"
+      :iconAlt="'войти'"
+      :iconSrc="require('@/assets/images/enter.svg')"
+      :buttonClass="'header__button'"
+      @click="openLoginModal"
+    />
 
-    <div v-if="isLoggedIn" class="header__user-info">
+    <section v-if="isLoggedIn" class="header__user-info">
       <p class="header__email">{{ userEmail }}</p>
       <div class="header__user-wrapper">
         <img
@@ -36,8 +36,7 @@
           @close="closeLogoutModal"
         />
       </div>
-    </div>
-
+    </section>
     <BaseModal
       :isOpen="isLoginModalOpen"
       @close="closeLoginModal"
@@ -69,6 +68,7 @@ import LogoutModal from './modals/LogoutModal.vue';
 import BaseModal from './modals/BaseModal.vue';
 import LoginForm from './modals/LoginForm.vue';
 import RegisterForm from './modals/RegisterForm.vue';
+import Button from './ui/Button.vue';
 
 export default {
   name: 'Header',
@@ -77,6 +77,7 @@ export default {
     LogoutModal,
     LoginForm,
     RegisterForm,
+    Button,
   },
   data() {
     return {
@@ -161,27 +162,20 @@ export default {
     align-items: center;
     background-color: #b1c909;
     border-radius: 32px;
+    color: #ffffff;
     gap: 12px;
     padding: 12px 24px;
     border: 0;
     cursor: pointer;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 32px;
     &:hover {
       background-color: #97ab0d;
     }
     &:active {
       background-color: #819400;
     }
-  }
-  &__button-text {
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 32px;
-    color: #ffffff;
-    margin: 0;
-    letter-spacing: 1.5px;
-  }
-  &__button-img {
-    height: 32px;
   }
   &__user-info {
     display: flex;
@@ -212,9 +206,15 @@ export default {
     background-color: #1b2f46;
     border-radius: 50%;
     cursor: pointer;
+    position: relative;
   }
   &__user-icon:hover {
     opacity: 0.7;
+  }
+  &__modal-logout {
+    position: absolute;
+    width: 100%;
+    height: 100%;
   }
 }
 @media (max-width: 1366px) {

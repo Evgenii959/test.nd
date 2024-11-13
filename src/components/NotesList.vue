@@ -1,20 +1,19 @@
 <template>
-  <div v-if="notes.length">
-    <ul class="list">
-      <NoteCard
-        v-for="(note, index) in notes"
-        :key="index"
-        :note="note"
-        @delete-note="$emit('delete-note', note.id)"
-      />
-    </ul>
-  </div>
+  <ul class="list" v-if="notes.length">
+    <NoteCard
+      v-for="(note, index) in notes"
+      :key="index"
+      :note="note"
+      @delete-note="$emit('delete-note', note.id)"
+    />
+  </ul>
 </template>
 
 <script>
 import NoteCard from './NoteCard.vue';
 
 export default {
+  name: 'NotesList',
   components: {
     NoteCard,
   },

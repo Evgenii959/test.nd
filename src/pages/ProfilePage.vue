@@ -1,9 +1,12 @@
 <template>
   <div>
     <Header />
-    <button class="add-card-btn" @click="openNoteModal">
-      <img src="../assets/images/plus.svg" alt="плюс" />
-    </button>
+    <Button
+      :iconAlt="'плюс'"
+      :iconSrc="require('@/assets/images/plus.svg')"
+      :buttonClass="'add-card-btn'"
+      @click="openNoteModal"
+    />
     <BaseModal
       :modalTitle="loginTitle"
       :isOpen="isNoteModalOpen"
@@ -19,6 +22,7 @@ import Header from '../components/Header.vue';
 import NoteModal from '../components/modals/NoteModal.vue';
 import BaseModal from '../components/modals/BaseModal.vue';
 import NotesList from '../components/NotesList.vue';
+import Button from '../components/ui/Button.vue';
 
 export default {
   name: 'ProfilePage',
@@ -27,6 +31,7 @@ export default {
     NoteModal,
     BaseModal,
     NotesList,
+    Button,
   },
   data() {
     return {

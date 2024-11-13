@@ -9,19 +9,21 @@
         v-model="noteName"
         placeholder="Введите название"
         maxlength="100"
+        aria-describedby="note-name-length note-name-error"
       />
       <span
+        id="note-name-length"
         class="note__span"
         :class="{ note__span_red: noteName.length >= 100 }"
         >{{ noteName.length }}/100</span
       >
-      <span class="note__error" v-if="errors.noteName">{{
+      <span id="note-name-error" class="note__error" v-if="errors.noteName">{{
         errors.noteName
       }}</span>
     </div>
 
     <div class="note__form-group">
-      <label class="note__label note__label_textarea" for="name"
+      <label class="note__label note__label_textarea" for="text"
         >Текст заметки</label
       >
       <textarea
@@ -31,23 +33,35 @@
         v-model="noteTextarea"
         placeholder="Введите текст"
         maxlength="500"
+        aria-describedby="note-text-length note-text-error"
       />
       <span
         class="note__span"
+        id="note-text-length"
         :class="{ note__span_red: noteTextarea.length >= 500 }"
         >{{ noteTextarea.length }}/500</span
       >
-      <span class="note__error" v-if="errors.noteTextarea">{{
-        errors.noteTextarea
-      }}</span>
+      <span
+        id="note-text-error"
+        class="note__error"
+        v-if="errors.noteTextarea"
+        role="alert"
+        >{{ errors.noteTextarea }}</span
+      >
     </div>
-    <div class="note__button-container">
-      <button class="note__button" type="submit">Добавить</button>
+    <div class="note__button-wrapper">
+      <Button
+        :buttonType="'submit'"
+        :buttonText="'Добавить'"
+        :iconAlt="'Добавить'"
+        :buttonClass="'note__button'"
+      />
     </div>
   </form>
 </template>
 
 <script>
+import Button from '../ui/Button.vue';
 import {
   validateNameNote,
   validateTextarea,
@@ -55,6 +69,9 @@ import {
 
 export default {
   name: 'NoteModal',
+  components: {
+    Button,
+  },
   data() {
     return {
       noteName: '',
@@ -213,7 +230,7 @@ export default {
       color: #ff7461;
     }
   }
-  &__button-container {
+  &__button-wrapper {
     display: flex;
     justify-content: flex-end;
   }

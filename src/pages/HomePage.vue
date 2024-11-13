@@ -1,19 +1,19 @@
 <template>
   <div>
     <Header />
-    <div class="login">
-      <div class="login__block-text">
+    <main class="login">
+      <section class="login__block-text">
         <h1 class="login__title">Мои заметки</h1>
         <p class="login__subtitle">Не забывай о важном, храни его в облаке.</p>
-      </div>
-      <div class="login__image-container">
+      </section>
+      <section class="login__image-container">
         <img
           src="../assets/images/bg-login.png"
           class="login__image"
           alt="заметка"
         />
-      </div>
-    </div>
+      </section>
+    </main>
   </div>
 </template>
 <script>

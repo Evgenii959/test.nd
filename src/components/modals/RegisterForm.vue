@@ -9,8 +9,15 @@
       required
       placeholder="Введите Email"
       autocomplete="email"
+      aria-describedby="email-error"
     />
-    <span class="register__error" v-if="errors.email">{{ errors.email }}</span>
+    <span
+      id="email-error"
+      class="register__error"
+      v-if="errors.email"
+      role="alert"
+      >{{ errors.email }}</span
+    >
     <label class="register__label" for="register__password">Пароль</label>
     <div class="register__input-wrapper">
       <input
@@ -21,6 +28,7 @@
         required
         placeholder="******"
         autocomplete="password"
+        aria-describedby="password-error"
       />
 
       <div class="register__icon-password" @click="togglePasswordVisibility">
@@ -30,9 +38,13 @@
         />
       </div>
     </div>
-    <span class="register__error" v-if="errors.password">{{
-      errors.password
-    }}</span>
+    <span
+      id="password-error"
+      class="register__error"
+      v-if="errors.password"
+      role="alert"
+      >{{ errors.password }}</span
+    >
     <label class="register__label" for="register__confirmPassword"
       >Пароль еще раз</label
     >
@@ -45,6 +57,7 @@
         required
         placeholder="******"
         autocomplete="confirm-password"
+        aria-describedby="confirm-password-error"
       />
       <div
         class="register__icon-password"
@@ -56,9 +69,13 @@
         />
       </div>
     </div>
-    <span class="register__error" v-if="errors.confirmPassword">{{
-      errors.confirmPassword
-    }}</span>
+    <span
+      id="confirm-password-error"
+      class="register__error"
+      v-if="errors.confirmPassword"
+      role="alert"
+      >{{ errors.confirmPassword }}</span
+    >
     <div class="register__block-submit">
       <p class="register__registration">
         У вас нет аккаунта?
@@ -66,9 +83,13 @@
           >Войдите</a
         >
       </p>
-      <button class="register__button" type="submit">Зарегистрироваться</button>
+      <Button
+        :buttonType="'submit'"
+        :buttonText="'Зарегистрироваться'"
+        :buttonClass="'register__button'"
+      />
     </div>
-    <span class="register__error-user" v-if="errors.general">{{
+    <span class="register__error-user" v-if="errors.general" role="alert">{{
       errors.general
     }}</span>
   </form>
@@ -77,6 +98,7 @@
 <script>
 import visibleIcon from '../../assets/images/visible.svg';
 import invisibleIcon from '../../assets/images/invisible.svg';
+import Button from '../ui/Button.vue';
 import {
   validateEmail,
   validatePassword,
@@ -84,6 +106,10 @@ import {
 } from '../../validation/validation.js';
 
 export default {
+  name: 'RegisterForm',
+  components: {
+    Button,
+  },
   data() {
     return {
       email: '',

@@ -1,6 +1,6 @@
 <template>
   <form class="login" @submit.prevent="signIn" novalidate>
-    <label class="login__label" for="login__email">Email</label>
+    <label class="login__label" for="email">Email</label>
     <input
       class="login__input"
       type="email"
@@ -9,27 +9,29 @@
       required
       placeholder="Введите значение"
       autocomplete="email"
+      aria-describedby="email-error"
     />
-    <span class="login__error" v-if="errors.email">{{ errors.email }}</span>
+    <span class="login__error" id="email-error" v-if="errors.email">{{ errors.email }}</span>
     <label class="login__label" for="password">Пароль</label>
     <div class="login__input-wrapper">
       <input
         class="login__input"
         :type="passwordVisible ? 'text' : 'password'"
-        id="login__password"
+        id="password"
         v-model="password"
         required
         placeholder="******"
         autocomplete="password"
+        aria-describedby="password-error"
       />
-      <div class="login__icon-password" @click="togglePasswordVisibility">
+      <div class="login__icon" @click="togglePasswordVisibility">
         <img
           :src="passwordVisible ? visibleIcon : invisibleIcon"
           alt="видимость"
         />
       </div>
     </div>
-    <span class="login__error" v-if="errors.password">{{
+    <span class="login__error" id="password-error" v-if="errors.password">{{
       errors.password
     }}</span>
     <div class="login__block-submit">
@@ -39,7 +41,11 @@
           >Зарегистрируйтесь</a
         >
       </p>
-      <button class="login__button" type="submit">Войти</button>
+      <Button
+        :buttonType="'submit'"
+        :buttonText="'Войти'"
+        :buttonClass="'login__button'"
+      />
     </div>
     <span class="login__error-user" v-if="errors.general">{{
       errors.general
@@ -50,12 +56,17 @@
 <script>
 import visibleIcon from '../../assets/images/visible.svg';
 import invisibleIcon from '../../assets/images/invisible.svg';
+import Button from '../ui/Button.vue';
 import {
   validateEmail,
   validatePassword,
 } from '../../validation/validation.js';
 
 export default {
+  name: 'LoginForm',
+  components: {
+    Button,
+  },
   data() {
     return {
       email: '',
@@ -207,7 +218,7 @@ export default {
       color: #9da5af;
     }
   }
-  &__icon-password {
+  &__icon {
     position: absolute;
     top: 28px;
     right: 29px;
@@ -236,6 +247,7 @@ export default {
   }
   &__block-submit {
     display: flex;
+    align-items: center;
     justify-content: space-between;
     margin-top: 12px;
     width: 100%;

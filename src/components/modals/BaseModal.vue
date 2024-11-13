@@ -1,9 +1,9 @@
 <template>
   <div v-if="isOpen" class="modal" @click.self="close" @keydown.esc="close">
-    <div class="modal__content">
-      <img
-        src="../../assets/images/close.svg"
-        class="modal__close"
+    <div class="modal__content" tabindex="-1">
+      <Button
+        :iconAlt="'закрыть'"
+        :buttonClass="'modal__close'"
         @click="close"
       />
       <h2 class="modal__title">{{ modalTitle }}</h2>
@@ -12,7 +12,13 @@
   </div>
 </template>
 <script>
+import Button from '../ui/Button.vue';
+
 export default {
+  name: 'BaseModal',
+  components: {
+    Button,
+  },
   props: {
     isOpen: {
       type: Boolean,
@@ -62,15 +68,17 @@ export default {
     width: 100%;
   }
   &__close {
+    background-image: url('@/assets/images/close.svg') ;
+    background-repeat: no-repeat;
     position: absolute;
+    background-position: center;
     top: 20px;
     right: 20px;
     cursor: pointer;
     background-color: #b1c909;
-    padding: 16px;
     border-radius: 50%;
-    width: 24px;
-    height: 24px;
+    width: 56px;
+    height: 56px;
     border: 0;
     &:hover {
       background-color: #97ab0d;

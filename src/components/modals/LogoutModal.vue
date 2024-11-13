@@ -1,13 +1,20 @@
 <template>
-  <div v-if="isOpen" class="modal">
-    <div class="modal-content" @click.stop>
-      <p class="modal__text" @click="logOut">Выйти</p>
-    </div>
+  <div v-if="isOpen" class="modal" @click="close">
+    <Button
+      :buttonText="'Выйти'"
+      :buttonClass="'modal__text'"
+      @click="logOut"
+    />
   </div>
 </template>
 
 <script>
+import Button from '../ui/Button.vue';
 export default {
+  name: 'LogoutModal',
+  components: {
+    Button,
+  },
   props: {
     isOpen: {
       type: Boolean,
@@ -22,7 +29,7 @@ export default {
   },
   methods: {
     close() {
-      this.$emit('close-logout-modal');
+      this.$emit('close');
     },
     handleKeyDown(event) {
       if (event.key === 'Escape') {
@@ -65,7 +72,7 @@ export default {
   right: 0px;
   border-radius: 12px;
   z-index: 3;
-  &::before {
+  &:before {
     content: '';
     position: absolute;
     top: -10px;
