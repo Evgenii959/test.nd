@@ -86,16 +86,16 @@ export default {
     resize: none;
     &:hover {
       border: 2px solid #b1c909;
-      padding: 21.5px 26.5px;
+      padding: 21px 26px;
     }
     &:active {
       border: 2px solid #b1c909;
-      padding: 21.5px 26.5px;
+      padding: 21px 26px;
       outline: none;
     }
     &:focus {
       border: 2px solid #b1c909;
-      padding: 21.2px 26.5px;
+      padding: 21px 26px;
       outline: none;
     }
     &:placeholder {

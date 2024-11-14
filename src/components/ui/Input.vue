@@ -128,7 +128,7 @@ export default {
     margin: 7px 0 24px;
     &:hover {
       border: 2px solid #b1c909;
-      padding: 21.5px 26.5px;
+      padding: 21px 26px;
     }
     &:active {
       border: 2px solid #b1c909;
