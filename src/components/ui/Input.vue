@@ -68,9 +68,12 @@ export default {
     isPasswordInput() {
       return this.type === 'password';
     },
-    computedInputType() {
+  computedInputType() {
+    if (this.isPasswordInput) {
       return this.isPasswordVisible ? 'text' : 'password';
-    },
+    }
+    return this.type;
+  },
   },
   methods: {
     updateValue() {

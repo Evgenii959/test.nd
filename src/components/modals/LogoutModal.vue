@@ -85,6 +85,7 @@ export default {
     cursor: pointer;
     &:hover {
       opacity: 0.7;
+      transition: all 0.5s;
     }
   }
 }

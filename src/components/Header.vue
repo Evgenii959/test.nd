@@ -110,27 +110,27 @@ export default {
   mounted() {
     this.handleResize();
     window.addEventListener('resize', this.handleResize);
-      document.addEventListener('click', this.handleClickOutside);
+    document.addEventListener('click', this.handleClickOutside);
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize);
-      document.removeEventListener('click', this.handleClickOutside);
+    document.removeEventListener('click', this.handleClickOutside);
   },
   methods: {
     handleClickOutside(event) {
-    const modal = document.querySelector('.header__logout-modal');
-    const userIcon = document.querySelector('.header__user-icon');
+      const modal = document.querySelector('.header__logout-modal');
+      const userIcon = document.querySelector('.header__user-icon');
 
-    if (
-      this.isLogoutModalOpen && 
-      modal && 
-      !modal.contains(event.target) && 
-      userIcon && 
-      !userIcon.contains(event.target)
-    ) {
-      this.closeLogoutModal();
-    }
-  },
+      if (
+        this.isLogoutModalOpen &&
+        modal &&
+        !modal.contains(event.target) &&
+        userIcon &&
+        !userIcon.contains(event.target)
+      ) {
+        this.closeLogoutModal();
+      }
+    },
     openLoginModal() {
       this.isLoginModalOpen = true;
       this.isRegisterModalOpen = false;
@@ -189,6 +189,7 @@ export default {
     line-height: 32px;
     &:hover {
       background-color: #97ab0d;
+      transition: all 0.5s;
     }
     &:active {
       background-color: #819400;
@@ -226,6 +227,7 @@ export default {
     position: relative;
     &:hover {
       opacity: 0.7;
+      transition: all 0.5s;
     }
   }
 }

@@ -183,6 +183,7 @@ export default {
     color: #b1c909;
     &:hover {
       color: #ffffff;
+      transition: all 0.5s;
     }
   }
   &__button {
@@ -199,6 +200,7 @@ export default {
     border: 0;
     &:hover {
       background-color: #97ab0d;
+      transition: all 0.5s;
     }
     &:active {
       background-color: #819400;

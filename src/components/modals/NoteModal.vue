@@ -118,6 +118,7 @@ export default {
     margin-top: 40px;
     &:hover {
       background-color: #97ab0d;
+      transition: all 0.5s;
     }
     &:active {
       background-color: #819400;

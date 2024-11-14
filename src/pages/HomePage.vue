@@ -75,7 +75,6 @@ export default {
       line-height: 70px;
     }
     &__subtitle {
-      font-size: 32px;
       line-height: 40px;
     }
   }

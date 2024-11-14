@@ -75,8 +75,9 @@ export default {
     display: flex;
     justify-content: end;
     &:hover {
-    opacity: 0.7;
-  }
+      opacity: 0.7;
+      transition: all 0.5s;
+    }
   }
   &::before {
     content: '';

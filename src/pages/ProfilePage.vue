@@ -78,9 +78,7 @@ export default {
         }
       } catch (error) {
         if (error.response) {
-          console.error(
-            error.response.statusText
-          );
+          console.error(error.response.statusText);
         } else {
           console.error('Ошибка сети или запроса:', error.message);
         }
@@ -112,6 +110,7 @@ export default {
   box-shadow: 0 15px 46px -10px rgba(0, 0, 0, 0.6);
   &:hover {
     background-color: #97ab0d;
+    transition: all 0.5s;
   }
   &:active {
     background-color: #819400;
