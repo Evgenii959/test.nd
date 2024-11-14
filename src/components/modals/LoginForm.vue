@@ -34,9 +34,7 @@
         :buttonClass="'login__button'"
       />
     </div>
-    <span class="login__error" v-if="errors.general">{{
-      errors.general
-    }}</span>
+    <span class="login__error" v-if="errors.general">{{ errors.general }}</span>
   </form>
 </template>
 
@@ -125,25 +123,17 @@ export default {
 
     async fetchProtectedData() {
       try {
-        const token = localStorage.getItem('accessToken');
-        const response = await fetch('https://dist.nd.ru/api/auth', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await this.$api.instance.get('/api/auth');
 
-        if (response.ok) {
+        if (response.status === 200) {
           this.$emit('close-login-modal');
         } else {
-          const errorData = await response.json();
-          throw new Error(
-            errorData.message || 'Ошибка доступа к защищённому ресурсу'
-          );
+          const errorMessage =
+            response.data.message || 'Ошибка доступа к защищённому ресурсу';
+          throw new Error(errorMessage);
         }
       } catch (error) {
-        console.error('Ошибка при запросе:', error);
+        console.error('Ошибка при запросе:', error.message);
       }
     },
   },

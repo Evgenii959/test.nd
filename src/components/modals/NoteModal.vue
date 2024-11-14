@@ -74,25 +74,15 @@ export default {
       if (!this.validateForm()) {
         return;
       }
-
       const newNote = {
         title: this.noteName,
         content: this.noteTextarea,
       };
       const notes = JSON.parse(localStorage.getItem('notes'));
-      const token = localStorage.getItem('accessToken');
       try {
-        const response = await fetch('https://dist.nd.ru/api/notes', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(newNote),
-        });
-
-        if (response.ok) {
-          const result = await response.json();
+        const response = await this.$api.instance.post('/api/notes', newNote);
+        if (response.status === 200 || response.status === 201) {
+          const result = response.data;
           this.$emit('submit-note', { ...newNote, id: result.id });
           localStorage.setItem('notes', JSON.stringify(notes));
         } else {

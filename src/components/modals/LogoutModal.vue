@@ -38,16 +38,9 @@ export default {
     },
     async logOut() {
       try {
-        const token = localStorage.getItem('accessToken');
-        const response = await fetch('https://dist.nd.ru/api/auth', {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await this.$api.instance.delete('/api/auth');
 
-        if (response.ok) {
+        if (response.status === 200) {
           this.$emit('logout');
           localStorage.removeItem('accessToken');
           localStorage.removeItem('userEmail');
@@ -55,7 +48,7 @@ export default {
           throw new Error('Ошибка при выходе');
         }
       } catch (error) {
-        console.error('Ошибка при выходе:', error);
+        console.error('Ошибка при выходе:', error.message);
       }
     },
   },
@@ -89,8 +82,8 @@ export default {
     color: #b1c909;
     cursor: pointer;
     &:hover {
-    opacity: 0.7;
-  }
+      opacity: 0.7;
+    }
   }
 }
 </style>
