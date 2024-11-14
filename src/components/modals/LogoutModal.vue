@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isOpen" class="modal" @click="close">
+  <div v-if="isOpen" class="modal" @click.self="close" @keydown.esc="close">
     <Button
       :buttonText="'Выйти'"
       :buttonClass="'modal__text'"
@@ -33,18 +33,19 @@ export default {
     },
     handleKeyDown(event) {
       if (event.key === 'Escape') {
-        this.$emit('close');
+        this.close();
       }
     },
     async logOut() {
       try {
-        const response = await this.$api.instance.delete('/api/auth');
+        const response = await this.$api.auth.logOut();
 
         if (response.status === 200) {
           this.$emit('logout');
           localStorage.removeItem('accessToken');
           localStorage.removeItem('userEmail');
           localStorage.removeItem('notes');
+          this.close();
         } else {
           throw new Error('Ошибка при выходе');
         }

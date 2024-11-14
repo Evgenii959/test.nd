@@ -30,10 +30,12 @@
           class="header__user-icon"
           @click="toggleLogoutModal"
         />
+
         <LogoutModal
           :isOpen="isLogoutModalOpen"
           @logout="handleLogout"
           @close="closeLogoutModal"
+          class="header__logout-modal"
         />
       </div>
     </section>
@@ -108,11 +110,27 @@ export default {
   mounted() {
     this.handleResize();
     window.addEventListener('resize', this.handleResize);
+      document.addEventListener('click', this.handleClickOutside);
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize);
+      document.removeEventListener('click', this.handleClickOutside);
   },
   methods: {
+    handleClickOutside(event) {
+    const modal = document.querySelector('.header__logout-modal');
+    const userIcon = document.querySelector('.header__user-icon');
+
+    if (
+      this.isLogoutModalOpen && 
+      modal && 
+      !modal.contains(event.target) && 
+      userIcon && 
+      !userIcon.contains(event.target)
+    ) {
+      this.closeLogoutModal();
+    }
+  },
     openLoginModal() {
       this.isLoginModalOpen = true;
       this.isRegisterModalOpen = false;
@@ -142,7 +160,7 @@ export default {
     handleLogout() {
       this.isLoggedIn = false;
       this.userEmail = '';
-      this.$router.push('/test.nd');
+      this.$router.push('/test.nd/');
     },
     handleResize() {
       this.isMobile = window.innerWidth < 600;

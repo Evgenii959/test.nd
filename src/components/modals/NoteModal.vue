@@ -79,7 +79,7 @@ export default {
         content: this.noteTextarea,
       };
       try {
-        const response = await this.$api.instance.post('/api/notes', newNote);
+        const response = await this.$api.notes.addNote(newNote);
         if (response.status === 200 || response.status === 201) {
           const result = response.data;
           this.$emit('submit-note', { ...newNote, id: result.id });

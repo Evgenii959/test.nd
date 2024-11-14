@@ -1,8 +1,7 @@
 <template>
   <div>
-    <Header />
     <Button
-      :iconAlt="'плюс'"
+      :iconAlt="'добавить'"
       :iconSrc="require('@/assets/images/plus.svg')"
       :buttonClass="'add-card-btn'"
       @click="openNoteModal"
@@ -18,7 +17,6 @@
   </div>
 </template>
 <script>
-import Header from '../components/Header.vue';
 import NoteModal from '../components/modals/NoteModal.vue';
 import BaseModal from '../components/modals/BaseModal.vue';
 import NotesList from '../components/NotesList.vue';
@@ -27,7 +25,6 @@ import Button from '../components/ui/Button.vue';
 export default {
   name: 'ProfilePage',
   components: {
-    Header,
     NoteModal,
     BaseModal,
     NotesList,
@@ -56,41 +53,37 @@ export default {
       this.$emit('close');
     },
     async getNotes() {
-      const token = localStorage.getItem('accessToken');
       try {
-        const response = await fetch('https://dist.nd.ru/api/notes', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (response.ok) {
-          this.notes = await response.json();
-        } else {
-          console.error('Ошибка при получении заметок:', response.statusText);
-        }
+        const response = await this.$api.notes.getNotes();
+        this.notes = response.data;
       } catch (error) {
-        console.error('Ошибка сети или запроса:', error);
+        if (error.response) {
+          console.error(
+            'Ошибка при получении заметок:',
+            error.response.statusText
+          );
+        } else {
+          console.error('Ошибка сети или запроса:', error.message);
+        }
       }
     },
     async deleteNote(id) {
-      const token = localStorage.getItem('accessToken');
       try {
-        const response = await fetch(`https://dist.nd.ru/api/notes/${id}`, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (response.ok) {
+        const response = await this.$api.notes.deleteNote(id);
+
+        if (response.status === 200) {
           this.notes = this.notes.filter((note) => note.id !== id);
         } else {
-          console.error('Ошибка при получении заметок:', response.statusText);
+          console.error('Ошибка при удалении заметки:', response.statusText);
         }
       } catch (error) {
-        console.error('Ошибка сети или запроса:', error);
+        if (error.response) {
+          console.error(
+            error.response.statusText
+          );
+        } else {
+          console.error('Ошибка сети или запроса:', error.message);
+        }
       }
     },
   },

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Header />
     <main class="login">
       <section class="login__block-text">
         <h1 class="login__title">Мои заметки</h1>
@@ -17,13 +16,8 @@
   </div>
 </template>
 <script>
-import Header from '../components/Header.vue';
-
 export default {
   name: 'HomePage',
-  components: {
-    Header,
-  },
 };
 </script>
 <style lang="scss" scoped>

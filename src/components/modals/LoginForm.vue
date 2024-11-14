@@ -123,7 +123,7 @@ export default {
 
     async fetchProtectedData() {
       try {
-        const response = await this.$api.instance.get('/api/auth');
+        const response = await this.$api.auth.protectedData();
 
         if (response.status === 200) {
           this.$emit('close-login-modal');
