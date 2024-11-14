@@ -68,7 +68,7 @@ export default {
     width: 100%;
   }
   &__close {
-    background-image: url('@/assets/images/close.svg') ;
+    background-image: url('@/assets/images/close.svg');
     background-repeat: no-repeat;
     position: absolute;
     background-position: center;
@@ -100,7 +100,7 @@ export default {
   .modal {
     &__content {
       padding: 56px;
-      max-width: 494px;
+      max-width: 482px;
     }
     &__title {
       max-width: 482px;
@@ -142,11 +142,12 @@ export default {
 }
 @media (max-width: 360px) {
   .modal {
-    padding: 0 4px;
-    margin: 0 auto;
+    &__title {
+      margin-bottom: 28px;
+    }
     &__close {
       top: 12px;
-      right: 20px;
+      right: 12px;
     }
   }
 }

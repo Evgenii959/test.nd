@@ -1,39 +1,26 @@
 <template>
   <form class="login" @submit.prevent="signIn" novalidate>
-    <label class="login__label" for="email">Email</label>
-    <input
-      class="login__input"
-      type="email"
+    <Input
       id="email"
+      label="Email"
       v-model="email"
+      type="email"
       required
       placeholder="Введите значение"
+      :errorMessage="errors.email"
       autocomplete="email"
-      aria-describedby="email-error"
     />
-    <span class="login__error" id="email-error" v-if="errors.email">{{ errors.email }}</span>
-    <label class="login__label" for="password">Пароль</label>
-    <div class="login__input-wrapper">
-      <input
-        class="login__input"
-        :type="passwordVisible ? 'text' : 'password'"
-        id="password"
-        v-model="password"
-        required
-        placeholder="******"
-        autocomplete="password"
-        aria-describedby="password-error"
-      />
-      <div class="login__icon" @click="togglePasswordVisibility">
-        <img
-          :src="passwordVisible ? visibleIcon : invisibleIcon"
-          alt="видимость"
-        />
-      </div>
-    </div>
-    <span class="login__error" id="password-error" v-if="errors.password">{{
-      errors.password
-    }}</span>
+    <Input
+      id="password"
+      label="Пароль"
+      v-model="password"
+      :type="'password'"
+      placeholder="******"
+      :errorMessage="errors.password"
+      required
+      aria-describedby="password-error"
+      :showPasswordToggle="true"
+    />
     <div class="login__block-submit">
       <p class="login__registration">
         У вас нет аккаунта?
@@ -47,16 +34,15 @@
         :buttonClass="'login__button'"
       />
     </div>
-    <span class="login__error-user" v-if="errors.general">{{
+    <span class="login__error" v-if="errors.general">{{
       errors.general
     }}</span>
   </form>
 </template>
 
 <script>
-import visibleIcon from '../../assets/images/visible.svg';
-import invisibleIcon from '../../assets/images/invisible.svg';
 import Button from '../ui/Button.vue';
+import Input from '../ui/Input.vue';
 import {
   validateEmail,
   validatePassword,
@@ -66,14 +52,12 @@ export default {
   name: 'LoginForm',
   components: {
     Button,
+    Input,
   },
   data() {
     return {
       email: '',
       password: '',
-      passwordVisible: false,
-      visibleIcon,
-      invisibleIcon,
       errors: {
         email: '',
         password: '',
@@ -176,64 +160,7 @@ export default {
     display: flex;
     flex-direction: column;
   }
-  &__label {
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 28px;
-    color: #9da5af;
-    margin: -5px 0 8px 24px;
-  }
-  &__input-wrapper {
-    position: relative;
-    width: 100%;
-  }
-  &__input {
-    font-family: 'Montserrat';
-    background-color: #ffffff;
-    border-radius: 36px;
-    padding: 23px 28px;
-    width: 100%;
-    box-sizing: border-box;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 28px;
-    color: #0a1f38;
-    border: 0;
-    margin-bottom: 29px;
-    &:hover {
-      border: 2px solid #b1c909;
-      padding: 21.5px 26.5px;
-    }
-    &:active {
-      border: 2px solid #b1c909;
-      padding: 21.5px 26.5px;
-      outline: none;
-    }
-    &:focus {
-      border: 2px solid #b1c909;
-      padding: 21.5px 26.5px;
-      outline: none;
-    }
-    &:placeholder {
-      color: #9da5af;
-    }
-  }
-  &__icon {
-    position: absolute;
-    top: 28px;
-    right: 29px;
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-  }
   &__error {
-    margin: -28px 0 0 24px;
-    color: #ff7461;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 28px;
-  }
-  &__error-user {
     margin-top: 20px;
     font-weight: 400;
     font-size: 18px;
@@ -257,15 +184,16 @@ export default {
     font-size: 18px;
     line-height: 28px;
     color: #9da5af;
+    margin: 0;
   }
   &__link {
     font-weight: 700;
     font-size: 18px;
     line-height: 28px;
     color: #b1c909;
-  }
-  &__link:hover {
-    color: #ffffff;
+    &:hover {
+      color: #ffffff;
+    }
   }
   &__button {
     font-family: 'Montserrat';
@@ -320,11 +248,6 @@ export default {
     &__registration {
       max-width: 400px;
     }
-    &__error {
-      margin-top: -15px;
-      margin-bottom: -13px;
-      font-size: 14px;
-    }
   }
 }
 @media (max-width: 400px) {
@@ -353,12 +276,8 @@ export default {
       margin-top: 10px;
     }
     &__link {
-      font-weight: 400;
       font-size: 14px;
       line-height: 24px;
-    }
-    &__error {
-      font-size: 12px;
     }
   }
 }

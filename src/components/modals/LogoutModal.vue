@@ -88,9 +88,9 @@ export default {
     font-weight: 700;
     color: #b1c909;
     cursor: pointer;
-  }
-  &__text:hover {
+    &:hover {
     opacity: 0.7;
+  }
   }
 }
 </style>

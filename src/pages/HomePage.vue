@@ -139,20 +139,6 @@ export default {
 }
 @media (max-width: 360px) {
   .login {
-    &__title {
-      width: 320px;
-      font-weight: 900;
-      font-size: 60px;
-      line-height: 64px;
-    }
-    &__subtitle {
-      width: 320px;
-      height: 72px;
-      font-weight: 400;
-      font-size: 24px;
-      line-height: 36px;
-      text-align: center;
-    }
     &__image-container {
       max-width: 298px;
     }

@@ -1,6 +1,6 @@
 <template>
   <li class="card">
-    <article class="card__content-wrapper">
+    <article>
       <h3 class="card__title">{{ note.title }}</h3>
       <p class="card__content">{{ note.content }}</p>
     </article>
@@ -75,9 +75,9 @@ export default {
   &__button-wrapper {
     display: flex;
     justify-content: end;
-  }
-  &__button-wrapper:hover {
+    &:hover {
     opacity: 0.7;
+  }
   }
   &::before {
     content: '';
@@ -116,9 +116,6 @@ export default {
   .card {
     width: 100%;
     max-width: 688px;
-    &__content {
-      width: 333px;
-    }
   }
 }
 @media (max-width: 420px) {

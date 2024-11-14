@@ -1,81 +1,37 @@
 <template>
   <form class="register" @submit.prevent="signUp" novalidate>
-    <label class="register__label" for="register__email">Email</label>
-    <input
-      class="register__input"
-      type="email"
+    <Input
       id="register__email"
+      label="Email"
       v-model="email"
+      type="email"
       required
-      placeholder="Введите Email"
+      placeholder="Введите значение"
+      :errorMessage="errors.email"
       autocomplete="email"
-      aria-describedby="email-error"
     />
-    <span
-      id="email-error"
-      class="register__error"
-      v-if="errors.email"
-      role="alert"
-      >{{ errors.email }}</span
-    >
-    <label class="register__label" for="register__password">Пароль</label>
-    <div class="register__input-wrapper">
-      <input
-        class="register__input"
-        :type="passwordVisible ? 'text' : 'password'"
-        id="register__password"
-        v-model="password"
-        required
-        placeholder="******"
-        autocomplete="password"
-        aria-describedby="password-error"
-      />
-
-      <div class="register__icon-password" @click="togglePasswordVisibility">
-        <img
-          :src="passwordVisible ? visibleIcon : invisibleIcon"
-          alt="видимость"
-        />
-      </div>
-    </div>
-    <span
-      id="password-error"
-      class="register__error"
-      v-if="errors.password"
-      role="alert"
-      >{{ errors.password }}</span
-    >
-    <label class="register__label" for="register__confirmPassword"
-      >Пароль еще раз</label
-    >
-    <div class="register__input-wrapper">
-      <input
-        class="register__input"
-        :type="confirmPasswordVisible ? 'text' : 'password'"
-        id="register__confirmPassword"
-        v-model="confirmPassword"
-        required
-        placeholder="******"
-        autocomplete="confirm-password"
-        aria-describedby="confirm-password-error"
-      />
-      <div
-        class="register__icon-password"
-        @click="toggleConfirmPasswordVisibility"
-      >
-        <img
-          :src="confirmPasswordVisible ? visibleIcon : invisibleIcon"
-          alt="видимость"
-        />
-      </div>
-    </div>
-    <span
-      id="confirm-password-error"
-      class="register__error"
-      v-if="errors.confirmPassword"
-      role="alert"
-      >{{ errors.confirmPassword }}</span
-    >
+    <Input
+      id="register__password"
+      label="Пароль"
+      v-model="password"
+      :type="'password'"
+      placeholder="******"
+      :errorMessage="errors.password"
+      required
+      aria-describedby="password-error"
+      :showPasswordToggle="true"
+    />
+    <Input
+      id="register__confirmPassword"
+      label="Пароль еще раз"
+      v-model="confirmPassword"
+      :type="'password'"
+      placeholder="******"
+      :errorMessage="errors.confirmPassword"
+      required
+      aria-describedby="confirm-password-error"
+      :showPasswordToggle="true"
+    />
     <div class="register__block-submit">
       <p class="register__registration">
         У вас нет аккаунта?
@@ -96,9 +52,8 @@
 </template>
 
 <script>
-import visibleIcon from '../../assets/images/visible.svg';
-import invisibleIcon from '../../assets/images/invisible.svg';
 import Button from '../ui/Button.vue';
+import Input from '../ui/Input.vue';
 import {
   validateEmail,
   validatePassword,
@@ -109,16 +64,13 @@ export default {
   name: 'RegisterForm',
   components: {
     Button,
+    Input,
   },
   data() {
     return {
       email: '',
       password: '',
       confirmPassword: '',
-      passwordVisible: false,
-      confirmPasswordVisible: false,
-      visibleIcon,
-      invisibleIcon,
       errors: {
         email: '',
         password: '',
@@ -143,12 +95,6 @@ export default {
     },
   },
   methods: {
-    togglePasswordVisibility() {
-      this.passwordVisible = !this.passwordVisible;
-    },
-    toggleConfirmPasswordVisibility() {
-      this.confirmPasswordVisible = !this.confirmPasswordVisible;
-    },
     loginModal() {
       this.$emit('open-login-modal');
     },
@@ -196,63 +142,6 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
-
-  &__label {
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 28px;
-    color: #9da5af;
-    margin: -5px 0 8px 24px;
-  }
-  &__input-wrapper {
-    position: relative;
-  }
-  &__input {
-    font-family: 'Montserrat';
-    background-color: #ffffff;
-    border-radius: 36px;
-    padding: 23px 28px;
-    width: 100%;
-    box-sizing: border-box;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 28px;
-    color: #0a1f38;
-    border: 0;
-    margin-bottom: 29px;
-    &:hover {
-      border: 2px solid #b1c909;
-      padding: 21.5px 26.5px;
-    }
-    &:active {
-      border: 2px solid #b1c909;
-      padding: 21.5px 26.5px;
-      outline: none;
-    }
-    &:focus {
-      border: 2px solid #b1c909;
-      padding: 21.5px 26.5px;
-      outline: none;
-    }
-    &:placeholder {
-      color: #9da5af;
-    }
-  }
-  &__icon-password {
-    position: absolute;
-    top: 28px;
-    right: 29px;
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-  }
-  &__error {
-    margin: -28px 0 0 24px;
-    color: #ff7461;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 28px;
-  }
   &__block-submit {
     display: flex;
     align-items: center;
@@ -271,9 +160,9 @@ export default {
     font-size: 18px;
     line-height: 28px;
     color: #b1c909;
-  }
-  &__link:hover {
-    color: #ffffff;
+    &:hover {
+      color: #ffffff;
+    }
   }
   &__button {
     font-family: 'Montserrat';
@@ -317,33 +206,13 @@ export default {
 }
 @media (max-width: 768px) {
   .register {
-    &__input {
-      margin-bottom: 16px;
-      width: 100%;
-    }
     &__block-submit {
       display: flex;
       align-items: center;
       margin-top: 22px;
     }
-    &__label {
-      margin-top: 5px;
-      font-weight: 400;
-      font-size: 18px;
-      line-height: 28px;
-    }
-    &__link {
-      font-weight: 700;
-      font-size: 18px;
-      line-height: 28px;
-    }
     &__registration {
       max-width: 400px;
-    }
-    &__error {
-      margin-top: -15px;
-      margin-bottom: -13px;
-      font-size: 14px;
     }
   }
 }
@@ -355,9 +224,6 @@ export default {
       align-items: center;
       text-align: center;
       margin-top: 12px;
-    }
-    &__label {
-      margin-top: 0;
     }
     &__button {
       order: 1;
@@ -373,12 +239,8 @@ export default {
       margin-top: 20px;
     }
     &__link {
-      font-weight: 400;
       font-size: 14px;
       line-height: 24px;
-    }
-    &__error {
-      font-size: 12px;
     }
   }
 }

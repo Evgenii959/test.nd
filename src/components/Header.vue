@@ -207,9 +207,9 @@ export default {
     border-radius: 50%;
     cursor: pointer;
     position: relative;
-  }
-  &__user-icon:hover {
-    opacity: 0.7;
+    &:hover {
+      opacity: 0.7;
+    }
   }
   &__modal-logout {
     position: absolute;
