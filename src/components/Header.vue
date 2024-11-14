@@ -44,7 +44,6 @@
     >
       <LoginForm
         @open-register-modal="openRegisterModal"
-        @close-register-modal="closeRegisterModal"
         @close-login-modal="closeLoginModal"
         @login-success="handleLoginSuccess"
       />
@@ -57,7 +56,7 @@
     >
       <RegisterForm
         @open-login-modal="openLoginModal"
-        @close-login-modal="closeLoginModal"
+        @close-register-modal="closeRegisterModal"
       />
     </BaseModal>
   </header>
@@ -210,11 +209,6 @@ export default {
     &:hover {
       opacity: 0.7;
     }
-  }
-  &__modal-logout {
-    position: absolute;
-    width: 100%;
-    height: 100%;
   }
 }
 @media (max-width: 1366px) {

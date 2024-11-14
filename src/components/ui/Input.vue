@@ -54,7 +54,7 @@ export default {
     errorMessage: { type: String, default: '' },
     ariaDescribedBy: { type: String, default: '' },
     showLength: { type: Boolean, default: false },
-    maxlength: { type: Number, default: 100 },
+    maxlength: { type: String, default: '100' },
   },
   data() {
     return {

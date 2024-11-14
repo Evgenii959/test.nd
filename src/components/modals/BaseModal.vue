@@ -104,9 +104,6 @@ export default {
     }
     &__title {
       max-width: 482px;
-      font-weight: 600;
-      font-size: 48px;
-      line-height: 72px;
     }
   }
 }

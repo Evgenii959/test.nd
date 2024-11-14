@@ -74,6 +74,7 @@ export default {
       errors: {
         email: '',
         password: '',
+        confirmPassword: '',
       },
     };
   },
@@ -85,6 +86,12 @@ export default {
     password(value) {
       const passwordErrors = validatePassword(value);
       this.errors.password = passwordErrors.join('. ');
+
+      const passwordConfirmErrors = validateConfirmPassword(
+        this.confirmPassword,
+        value
+      );
+      this.errors.confirmPassword = passwordConfirmErrors.join('. ');
     },
     confirmPassword(value) {
       const passwordConfirmErrors = validateConfirmPassword(
@@ -99,11 +106,23 @@ export default {
       this.$emit('open-login-modal');
     },
 
+    registerModal() {
+      this.$emit('close-register-modal');
+    },
+
     validateForm() {
       this.errors.email = validateEmail(this.email).join('. ');
       this.errors.password = validatePassword(this.password).join('. ');
+      this.errors.confirmPassword = validateConfirmPassword(
+        this.confirmPassword,
+        this.password
+      ).join('. ');
 
-      return !(this.errors.email || this.errors.password);
+      return (
+        !this.errors.email &&
+        !this.errors.password &&
+        !this.errors.confirmPassword
+      );
     },
 
     async signUp() {
@@ -118,9 +137,9 @@ export default {
           confirm_password: this.confirmPassword,
         });
 
-        if (response.data.ok) {
-          this.$emit('open-login-modal');
+        if (response) {
           this.$emit('close-register-modal');
+          this.$emit('open-login-modal');
         }
       } catch (error) {
         if (error.response.status === 409) {

@@ -12,7 +12,10 @@
     ></textarea>
     <span
       :id="`${id}-length`"
-      :class="['textarea__span', { textarea__span_red: textareaValue.length >= maxlength }]"
+      :class="[
+        'textarea__span',
+        { textarea__span_red: textareaValue.length >= maxlength },
+      ]"
     >
       {{ textareaValue.length }}/{{ maxlength }}
     </span>
@@ -35,7 +38,7 @@ export default {
     label: { type: String, default: '' },
     value: { type: String, required: true },
     placeholder: { type: String, default: '' },
-    maxlength: { type: Number, default: 500 },
+    maxlength: { type: String, default: '500' },
     errorMessage: { type: String, default: '' },
   },
   data() {

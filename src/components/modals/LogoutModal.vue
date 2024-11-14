@@ -72,7 +72,7 @@ export default {
   right: 0px;
   border-radius: 12px;
   z-index: 3;
-  &:before {
+  &::before {
     content: '';
     position: absolute;
     top: -10px;

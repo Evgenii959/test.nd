@@ -6,7 +6,6 @@
     </article>
     <div class="card__button-wrapper">
       <Button
-        v-if="!isLoggedIn"
         :buttonText="'Удалить'"
         :iconAlt="'Удалить'"
         :iconSrc="require('@/assets/images/close.svg')"
