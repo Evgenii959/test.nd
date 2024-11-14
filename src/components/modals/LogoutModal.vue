@@ -44,6 +44,7 @@ export default {
           this.$emit('logout');
           localStorage.removeItem('accessToken');
           localStorage.removeItem('userEmail');
+          localStorage.removeItem('notes');
         } else {
           throw new Error('Ошибка при выходе');
         }

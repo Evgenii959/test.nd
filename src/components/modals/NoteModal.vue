@@ -78,13 +78,11 @@ export default {
         title: this.noteName,
         content: this.noteTextarea,
       };
-      const notes = JSON.parse(localStorage.getItem('notes'));
       try {
         const response = await this.$api.instance.post('/api/notes', newNote);
         if (response.status === 200 || response.status === 201) {
           const result = response.data;
           this.$emit('submit-note', { ...newNote, id: result.id });
-          localStorage.setItem('notes', JSON.stringify(notes));
         } else {
           console.error('Ошибка при добавлении заметки:', response.statusText);
         }
