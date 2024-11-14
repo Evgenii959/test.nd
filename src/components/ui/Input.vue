@@ -4,7 +4,7 @@
     <div class="input__wrapper">
       <input
         class="input__field"
-        :type="type"
+        :type="computedInputType"
         :id="id"
         v-model="inputValue"
         :placeholder="placeholder"
@@ -67,6 +67,9 @@ export default {
   computed: {
     isPasswordInput() {
       return this.type === 'password';
+    },
+    computedInputType() {
+      return this.isPasswordVisible ? 'text' : 'password';
     },
   },
   methods: {

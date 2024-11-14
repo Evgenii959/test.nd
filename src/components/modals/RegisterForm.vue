@@ -33,8 +33,8 @@
       :showPasswordToggle="true"
     />
     <div class="register__block-submit">
-      <p class="register__registration">
-        У вас нет аккаунта?
+      <p class="register__enter">
+        У вас есть аккаунт?
         <a class="register__link" href="#" @click.prevent="loginModal"
           >Войдите</a
         >
@@ -129,7 +129,6 @@ export default {
       if (!this.validateForm()) {
         return;
       }
-
       try {
         const response = await this.$api.auth.signUp({
           email: this.email,
@@ -168,7 +167,7 @@ export default {
     width: 100%;
     margin-top: 5px;
   }
-  &__registration {
+  &__enter {
     font-weight: 400;
     font-size: 18px;
     line-height: 28px;
@@ -230,7 +229,7 @@ export default {
       align-items: center;
       margin-top: 22px;
     }
-    &__registration {
+    &__enter {
       max-width: 400px;
     }
   }
@@ -248,7 +247,7 @@ export default {
       order: 1;
       width: 100%;
     }
-    &__registration {
+    &__enter {
       order: 2;
       font-weight: 400;
       font-size: 14px;
